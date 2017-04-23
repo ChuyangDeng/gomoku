@@ -1,6 +1,7 @@
 package gomuku;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * This class implements a human player
@@ -28,7 +29,17 @@ public class HumanPlayer implements Player{
 	@Override
 	public Pawn makeMove(Cell opponent) {
 		// TODO Auto-generated method stub
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please enter the row number: ");
+		int x = in.nextInt();
+		System.out.println("Please enter the column number:  ");
+		int y = in.nextInt();
+		in.close();
 		
+		Pawn p = new Pawn(color);
+		p.setPawn(x, y);
+		
+		return p;
 	}
 
 	@Override
