@@ -1,1 +1,3 @@
 # gomuku
+
+a gomuku game
