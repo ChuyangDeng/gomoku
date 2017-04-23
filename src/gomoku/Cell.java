@@ -1,4 +1,4 @@
-package gomuku;
+package gomoku;
 
 /**
  * This class keeps track of a cell on the game board

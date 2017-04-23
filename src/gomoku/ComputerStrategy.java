@@ -1,4 +1,4 @@
-package gomuku;
+package gomoku;
 
 /**
  * This is the computer strategy interface

@@ -1,4 +1,4 @@
-package gomuku;
+package gomoku;
 
 /**
  * Computer strategy using minimax tree

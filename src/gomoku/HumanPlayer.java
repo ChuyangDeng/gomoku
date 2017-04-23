@@ -1,4 +1,4 @@
-package gomuku;
+package gomoku;
 
 import java.util.ArrayList;
 import java.util.Scanner;
