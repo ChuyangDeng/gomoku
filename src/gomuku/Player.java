@@ -1,17 +1,24 @@
 package gomuku;
 
-import java.util.ArrayList;
+/**
+ * 
+ * This Player Interface provides common method a Player should have.
+ * @author chuyangdeng
+ *
+ */
 
 public interface Player {
-//	String color;
-//	ArrayList<Cell> myCells;
-//	ArrayList<Cell> opponentCells;
 	
+	/**
+	 * Make a move.
+	 * @return a Pawn this player creates
+	 */
+	public Pawn makeMove(Cell opponentMove);
 	
-	public void makeMove(Pawn p);
-	
+	/**
+	 * Accessor to Player's color.
+	 * @return color of the Player
+	 */
 	public String getColor();
-	
-	
 	
 }

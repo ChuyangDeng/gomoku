@@ -42,5 +42,21 @@ public class Pawn {
 		return color;
 	}
 	
+	/**
+	 * Accessor to this Pawn's x coordination.
+	 * @return
+	 */
+	public int getX() {
+		return x;
+	}
+	
+	/**
+	 * Accessor to this Pawn's y coordination.
+	 * @return
+	 */
+	public int getY() {
+		return y;
+	}
+	
 
 }
