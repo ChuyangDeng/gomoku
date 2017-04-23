@@ -21,4 +21,10 @@ public interface Player {
 	 */
 	public String getColor();
 	
+	/**
+	 * Accessor to Player's name
+	 * @return Player's name
+	 */
+	public String getName();
+	
 }

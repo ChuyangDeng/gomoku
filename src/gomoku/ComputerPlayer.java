@@ -14,19 +14,21 @@ public class ComputerPlayer implements Player{
 	
 	private String color;
 	private String name;
-	private List<Cell> myCells;
+	private List<Pawn> myPawns;
 	private List<Cell> opponentCells;
+	private int boardSize;
 	
 	/**
-	 * 
+	 * Constructor of Computer Player.
 	 * @param color
 	 * @param name
 	 */
-	public ComputerPlayer(String color, String name) {
+	public ComputerPlayer(String color, String name, int size) {
 		this.color = color;
 		this.name = name;
-		myCells = new ArrayList<>();
+		myPawns = new ArrayList<>();
 		opponentCells = new ArrayList<>();
+		boardSize = size;
 	}
 
 	@Override
@@ -39,6 +41,11 @@ public class ComputerPlayer implements Player{
 	public String getColor() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

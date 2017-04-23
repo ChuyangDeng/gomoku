@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * This class implements a human player
  * @author paula
- *
+ *	
  */
 public class HumanPlayer implements Player{
 	String color;
@@ -46,6 +46,11 @@ public class HumanPlayer implements Player{
 	public String getColor() {
 		// TODO Auto-generated method stub
 		return color;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }
