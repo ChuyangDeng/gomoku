@@ -16,19 +16,19 @@ public class ComputerPlayer implements Player{
 	private String name;
 	private List<Pawn> myPawns;
 	private List<Cell> opponentCells;
-	private int boardSize;
+	private Minimax minimax;
 	
 	/**
 	 * Constructor of Computer Player.
 	 * @param color
 	 * @param name
 	 */
-	public ComputerPlayer(String color, String name, int size) {
+	public ComputerPlayer(String color, String name, int size, Board board) {
 		this.color = color;
 		this.name = name;
 		myPawns = new ArrayList<>();
 		opponentCells = new ArrayList<>();
-		boardSize = size;
+		minimax = new Minimax(board, color);
 	}
 
 	@Override
@@ -39,8 +39,7 @@ public class ComputerPlayer implements Player{
 
 	@Override
 	public String getColor() {
-		// TODO Auto-generated method stub
-		return null;
+		return color;
 	}
 
 	@Override

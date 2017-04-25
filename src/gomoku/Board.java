@@ -39,6 +39,36 @@ public class Board {
 	}
 	
 	/**
+	 * This method takes the current chessboard and evaluate a score for current player
+	 * @param myPawns
+	 * @param opponentPawns
+	 * @return
+	 */
+	public double evaluate(String color) {
+		double blackScore = 0.0, whiteScore = 0.0;
+		int blacks = 0, whites = 0;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
+				if (this.board[i][j].getPawn() != null) {
+					Pawn currentPawn = board[i][j].getPawn();
+					if (currentPawn.getColor().equals("black")) {
+						whiteScore += Math.pow(2.0, whites * 1.0);
+						whites = 0;
+						blacks++;
+					}
+					else {
+						blackScore += Math.pow(2.0, blacks * 1.0);
+						blacks++;
+						whites++;
+					}
+				}
+			}
+		}
+		if (color.equals("black")) return blackScore;
+		else return whiteScore;
+	}
+	
+	/**
 	 * Check for 5 consecutive cells of same color
 	 * @return
 	 */
@@ -70,6 +100,14 @@ public class Board {
 	 */
 	public void removePawn(Position position) {
 		board[position.getX()][position.getY()].setPawn(null);
+	}
+	
+	/**
+	 * Accessor to chessboard's size
+	 * @return
+	 */
+	public int getSize() {
+		return board.length;
 	}
 
 }
