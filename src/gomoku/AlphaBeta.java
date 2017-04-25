@@ -6,5 +6,6 @@ package gomoku;
  *
  */
 public class AlphaBeta implements ComputerStrategy {
+	
 
 }

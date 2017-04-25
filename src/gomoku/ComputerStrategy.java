@@ -6,5 +6,6 @@ package gomoku;
  *
  */
 public interface ComputerStrategy {
+	
 
 }

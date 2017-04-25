@@ -17,7 +17,6 @@ public class RandomPlayer implements Player{
 	 */
 	private String color;
 	private String name;
-	private List<Cell> opponentCells;
 	private int boardSize;
 	private List<int[]> availableCells;
 	private Random rand;
@@ -30,7 +29,6 @@ public class RandomPlayer implements Player{
 	public RandomPlayer(String color, String name, int size) {
 		this.color = color;
 		this.name = name;
-		opponentCells = new ArrayList<>();
 		boardSize = size;
 		availableCells = new ArrayList<>();
 		initAvailableCells();
@@ -39,7 +37,6 @@ public class RandomPlayer implements Player{
 
 	@Override
 	public Pawn makeMove(Cell opponentMove) {
-		opponentCells.add(opponentMove);
 		int[] coordination = {opponentMove.getX(), opponentMove.getY()};
 		availableCells.remove(coordination);
 		int random = rand.nextInt(availableCells.size());
