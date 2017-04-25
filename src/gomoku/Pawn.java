@@ -12,8 +12,7 @@ public class Pawn {
 	 * Instance variables
 	 */
 	private String color;
-	private int x;
-	private int y;
+	private Position position;
 	
 	/**
 	 * Constructor of Pawn
@@ -30,8 +29,7 @@ public class Pawn {
 	 * @param y
 	 */
 	public void setPawn(int x, int y) {
-		this.x = x;
-		this.y = y;
+		position = new Position(x, y);
 	}
 	
 	/**
@@ -47,7 +45,7 @@ public class Pawn {
 	 * @return
 	 */
 	public int getX() {
-		return x;
+		return position.getX();
 	}
 	
 	/**
@@ -55,7 +53,7 @@ public class Pawn {
 	 * @return
 	 */
 	public int getY() {
-		return y;
+		return position.getY();
 	}
 	
 

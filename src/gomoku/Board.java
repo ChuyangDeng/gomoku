@@ -21,8 +21,21 @@ public class Board {
 	 */
 	public Board(int size) {
 		board = new Cell[size][size];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				board[i][j] = new Cell(i, j);
+			}
+		}
 		hasWinner = false;
 		winner = null;
+	}
+	
+	/**
+	 * Accessor to the board
+	 * @return
+	 */
+	public Cell[][] getBoard() {
+		return board;
 	}
 	
 	/**
@@ -46,8 +59,17 @@ public class Board {
 	 * @param pawn
 	 * @return a Cell to Player2
 	 */
-	public Cell lastMove(Pawn pawn) {
+	public Cell setMove(Pawn pawn) {
+		board[pawn.getX()][pawn.getY()].setPawn(pawn);
 		return board[pawn.getX()][pawn.getY()];
+	}
+	
+	/**
+	 * This method removes a Pawn from the board for calculating scores
+	 * @param position
+	 */
+	public void removePawn(Position position) {
+		board[position.getX()][position.getY()].setPawn(null);
 	}
 
 }

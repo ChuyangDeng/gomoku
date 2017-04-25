@@ -6,9 +6,8 @@ package gomoku;
  *
  */
 public class Cell {
-	Pawn p;
-	int x;
-	int y;
+	private Pawn p;
+	private Position position;
 	
 	/**
 	 * Constructor
@@ -17,8 +16,7 @@ public class Cell {
 	 */
 	public Cell(int x, int y){
 		p = null;
-		this.x = x;
-		this.y = y;
+		position = new Position(x, y);
 	}
 	
 	/**
@@ -26,9 +24,7 @@ public class Cell {
 	 * @param p pawn
 	 */
 	public void setPawn(Pawn p){
-		if (p == null){
-			this.p = p;
-		}
+		this.p = p;
 	}
 	
 	/**
@@ -40,11 +36,19 @@ public class Cell {
 	}
 	
 	/**
+	 * Accessor to the Pawn on this Cell
+	 * @return
+	 */
+	public Pawn getPawn() {
+		return p;
+	}
+	
+	/**
 	 * Get x position
 	 * @return x
 	 */
 	public int getX(){
-		return x;
+		return position.getX();
 	}
 	
 	/**
@@ -52,7 +56,7 @@ public class Cell {
 	 * @return y
 	 */
 	public int getY(){
-		return y;
+		return position.getY();
 	}
 	
 }

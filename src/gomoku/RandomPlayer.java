@@ -18,7 +18,7 @@ public class RandomPlayer implements Player{
 	private String color;
 	private String name;
 	private int boardSize;
-	private List<int[]> availableCells;
+	private List<Position> availableCells;
 	private Random rand;
 	
 	/**
@@ -37,15 +37,13 @@ public class RandomPlayer implements Player{
 
 	@Override
 	public Pawn makeMove(Cell opponentMove) {
-		int[] coordination = {opponentMove.getX(), opponentMove.getY()};
-		availableCells.remove(coordination);
+		Position opponent = new Position(opponentMove.getX(), opponentMove.getY());
+		availableCells.remove(opponent);
 		int random = rand.nextInt(availableCells.size());
-		int[] chosen = availableCells.get(random);
-		int x = chosen[0];
-		int y = chosen[1];
+		Position randomMove = availableCells.get(random);
 		Pawn move = new Pawn(color);
-		move.setPawn(x, y);
-		availableCells.remove(chosen);
+		move.setPawn(randomMove.getX(), randomMove.getY());
+		availableCells.remove(randomMove);
 		return move;
 	}
 
@@ -65,8 +63,8 @@ public class RandomPlayer implements Player{
 	private void initAvailableCells() {
 		for (int row = 0; row < boardSize; row++) {
 			for (int col = 0; col < boardSize; col++) {
-				int[] coordination = {row, col};
-				availableCells.add(coordination);
+				Position position = new Position(row, col);
+				availableCells.add(position);
 			}
 		}
 	}
