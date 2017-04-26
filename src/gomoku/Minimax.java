@@ -33,7 +33,7 @@ public class Minimax {
 		this.board = board;
 		this.color = color;
 		minResult = Double.MAX_VALUE;
-		maxResult =0.0;
+		maxResult = 0.0;
 		best = 0.0;
 		move = null;
 	}

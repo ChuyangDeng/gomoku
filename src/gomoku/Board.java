@@ -44,28 +44,98 @@ public class Board {
 	 * @param opponentPawns
 	 * @return
 	 */
-	public double evaluate(String color) {
-		double blackScore = 0.0, whiteScore = 0.0;
+	public long evaluate(String color) {
+		long score = 0;
+		score += horizontalScore(color);
+		score += verticalScore(color);
+		return score;
+	}
+	
+	/**
+	 * Calculate scores based on vertical consecutive pawns
+	 * @param color
+	 * @return
+	 */
+	private long verticalScore(String color) {
+		long blackScore = Long.MIN_VALUE, whiteScore = Long.MIN_VALUE;
 		int blacks = 0, whites = 0;
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board.length; j++) {
-				if (this.board[i][j].getPawn() != null) {
-					Pawn currentPawn = board[i][j].getPawn();
+		for (int col = 0; col < board.length && !hasWinner; col++) {
+			if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
+			if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
+			blacks = 0; whites = 0;
+			for (int row = 0; row < board.length && !hasWinner; row++) {
+				if (board[row][col].getPawn() != null) {
+					Pawn currentPawn = board[row][col].getPawn();
 					if (currentPawn.getColor().equals("black")) {
-						whiteScore += Math.pow(2.0, whites * 1.0);
+						if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
 						whites = 0;
 						blacks++;
-					}
-					else {
-						blackScore += Math.pow(2.0, blacks * 1.0);
-						blacks++;
+						if (blacks == 5) {
+							hasWinner = true;
+							winner = "black";
+							break;
+						}
+					} else {
+						if (blacks > 0) blackScore += (long) Math.pow(2.0, whites * 1.0);
+						blacks = 0;
 						whites++;
+						if (whites == 5) {
+							hasWinner = true;
+							winner = "white";
+							break;
+						}
 					}
+				} else {
+					if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
+					if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
+					blacks = 0; whites = 0;
 				}
 			}
 		}
-		if (color.equals("black")) return blackScore;
-		else return whiteScore;
+		if (color.equals("black")) return blackScore - whiteScore;
+		else return whiteScore - blackScore;
+	}
+	
+	/**
+	 * Calculate scores based on horizontal consecutive pawns
+	 * @param color
+	 * @return
+	 */
+	private long horizontalScore(String color) {
+		long blackScore = Long.MIN_VALUE, whiteScore = Long.MIN_VALUE;
+		for (int row = 0; row < board.length && !hasWinner; row++) {
+			int blacks = 0, whites = 0;
+			for (int col = 0; col < board.length && !hasWinner; col++) {
+				if (board[row][col].getPawn() != null) {
+					Pawn currentPawn = board[row][col].getPawn();
+					if (currentPawn.getColor().equals("black")) {
+						if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
+						whites = 0;
+						blacks++;
+						if (blacks == 5) {
+							hasWinner = true;
+							winner = "black";
+							break;
+						}
+					} else {
+						if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
+						blacks = 0;
+						whites++;
+						if (whites == 5) {
+							hasWinner = true;
+							winner = "white";
+							break;
+						}
+					}
+				} else {
+					if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
+					if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
+					whites = 0; blacks = 0;
+				}
+			}
+		}
+		if (color.equals("black")) return blackScore - whiteScore;
+		else return whiteScore - blackScore;
 	}
 	
 	/**
