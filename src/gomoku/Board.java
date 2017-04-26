@@ -1,5 +1,8 @@
 package gomoku;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * This is the Board class, it maintains Cells and check for winners.
@@ -48,7 +51,100 @@ public class Board {
 		long score = 0;
 		score += horizontalScore(color);
 		score += verticalScore(color);
+		score += diagonalScore(color);
 		return score;
+	}
+	
+	/**
+	 * Calculate scores based on diagonal consecutive pawns
+	 * @param color
+	 * @return
+	 */
+	private long diagonalScore(String color) {
+		long blackScore = Long.MIN_VALUE, whiteScore = Long.MIN_VALUE;
+		int blacks = 0, whites = 0;
+		/* get rows & cols number */
+		List<List<Position>> diagonals = new ArrayList<>();
+		/* upper right */
+		int count = board.length - 1;
+		while (count >= 0) {
+			List<Position> diagonal = new ArrayList<>();
+			for (int row = 0, col = count; row < board.length && col < board.length; row++, col++) {
+				Position position = new Position(row, col);
+				diagonal.add(position);
+			}
+			diagonals.add(diagonal);
+			count--;
+		}
+		/* lower left */
+		count = 0;
+		while (count <= board.length - 1) {
+			List<Position> diagonal = new ArrayList<>();
+			for (int row = count, col = 0; row < board.length && col < board.length; row++, col++) {
+				Position position = new Position(row, col);
+				diagonal.add(position);
+			}
+			diagonals.add(diagonal);
+			count++;
+		}
+		/* upper left */
+		count = 0;
+		while (count <= board.length - 1) {
+			List<Position> diagonal = new ArrayList<>();
+			for (int row = 0, col = count; row < board.length && col >= 0; row++, col--) {
+				Position position = new Position(row, col);
+				diagonal.add(position);
+			}
+			diagonals.add(diagonal);
+			count++;
+		}
+		/* lower right */
+		count = 0;
+		while (count <= board.length - 1) {
+			List<Position> diagonal = new ArrayList<>();
+			for (int row = count, col = board.length - 1; row < board.length && col >= 0; row++, col--) {
+				Position position = new Position(row, col);
+				diagonal.add(position);
+			}
+			diagonals.add(diagonal);
+		}
+		
+		for (int i = 0; i < diagonals.size() && !hasWinner; i++) {
+			List<Position> diagonal = diagonals.get(i);
+			if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
+			if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
+			blacks = 0; whites = 0;
+			for (int j = 0; j < diagonal.size() && !hasWinner; j++) {
+				Position position = diagonal.get(j);
+				Pawn currentPawn = board[position.getX()][position.getY()].getPawn();
+				if (currentPawn != null) {
+					if (currentPawn.getColor().equals("black")) {
+						if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
+						whites = 0;
+						blacks++;
+						if (blacks == 5) {
+							hasWinner = true;
+							winner = "black";
+						} else {
+							if (blacks > 0) blackScore += (long) Math.pow(2.0, whites * 1.0);
+							blacks = 0;
+							whites++;
+							if (whites == 5) {
+								hasWinner = true;
+								winner = "white";
+							}
+						}
+					}
+				} else {
+					if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
+					if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
+					blacks = 0; whites = 0;
+				}
+			}
+		}
+		
+		if (color.equals("black")) return blackScore - whiteScore;
+		else return whiteScore - blackScore;
 	}
 	
 	/**
@@ -73,7 +169,6 @@ public class Board {
 						if (blacks == 5) {
 							hasWinner = true;
 							winner = "black";
-							break;
 						}
 					} else {
 						if (blacks > 0) blackScore += (long) Math.pow(2.0, whites * 1.0);
@@ -82,7 +177,6 @@ public class Board {
 						if (whites == 5) {
 							hasWinner = true;
 							winner = "white";
-							break;
 						}
 					}
 				} else {
@@ -115,7 +209,6 @@ public class Board {
 						if (blacks == 5) {
 							hasWinner = true;
 							winner = "black";
-							break;
 						}
 					} else {
 						if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
@@ -124,7 +217,6 @@ public class Board {
 						if (whites == 5) {
 							hasWinner = true;
 							winner = "white";
-							break;
 						}
 					}
 				} else {
