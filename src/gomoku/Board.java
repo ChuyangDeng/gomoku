@@ -48,181 +48,116 @@ public class Board {
 	 * @return
 	 */
 	public long evaluate(String color) {
-		long score = 0;
-		score += horizontalScore(color);
-		score += verticalScore(color);
-		score += diagonalScore(color);
+		List<List<Position>> positions = getPositions();
+		long score = evaluateScore(positions, color);
 		return score;
 	}
 	
 	/**
-	 * Calculate scores based on diagonal consecutive pawns
-	 * @param color
+	 * Helper method to get rows, columns and diagonal positions
 	 * @return
 	 */
-	private long diagonalScore(String color) {
-		long blackScore = Long.MIN_VALUE, whiteScore = Long.MIN_VALUE;
-		int blacks = 0, whites = 0;
-		/* get rows & cols number */
-		List<List<Position>> diagonals = new ArrayList<>();
+	private List<List<Position>> getPositions() {
+		List<List<Position>> positions = new ArrayList<>();
+		/* ROWS */
+		for (int row = 0; row < board.length; row++) {
+			List<Position> rows = new ArrayList<>();
+			for (int col = 0; col < board.length; col++) {
+				Position position = new Position(row, col);
+				rows.add(position);
+			}
+			positions.add(rows);
+		}
+		/* COLUMNS */
+		for (int col = 0; col < board.length; col++) {
+			List<Position> cols = new ArrayList<>();
+			for (int row = 0; row < board.length; row++) {
+				Position position = new Position(row, col);
+				cols.add(position);
+			}
+			positions.add(cols);
+		}
+		/* DIAGONALS */
+		/* upper left */
+		int count = 0;
+		while (count < board.length) {
+			List<Position> diagonal = new ArrayList<>();
+			for (int row = 0, col = count; row < board.length && col >= 0; row++, col--) {
+				Position position = new Position(row, col);
+				diagonal.add(position);
+			}
+			positions.add(diagonal);
+			count++;
+		}
+		/* lower right */
+		count = board.length - 1;
+		while (count >= 0) {
+			List<Position> diagonal = new ArrayList<>();
+			for (int row = board.length - 1, col = count; row >= 0 && col < board.length; row--, col++) {
+				Position position = new Position(row, col);
+				diagonal.add(position);
+			}
+			positions.add(diagonal);
+		}
 		/* upper right */
-		int count = board.length - 1;
+		count = board.length - 1;
 		while (count >= 0) {
 			List<Position> diagonal = new ArrayList<>();
 			for (int row = 0, col = count; row < board.length && col < board.length; row++, col++) {
 				Position position = new Position(row, col);
 				diagonal.add(position);
 			}
-			diagonals.add(diagonal);
-			count--;
+			positions.add(diagonal);
 		}
 		/* lower left */
 		count = 0;
-		while (count <= board.length - 1) {
+		while (count < board.length) {
 			List<Position> diagonal = new ArrayList<>();
-			for (int row = count, col = 0; row < board.length && col < board.length; row++, col++) {
+			for (int row = board.length - 1, col = count; row >= 0 && col >= 0; row--, col--) {
 				Position position = new Position(row, col);
 				diagonal.add(position);
 			}
-			diagonals.add(diagonal);
-			count++;
+			positions.add(diagonal);
 		}
-		/* upper left */
-		count = 0;
-		while (count <= board.length - 1) {
-			List<Position> diagonal = new ArrayList<>();
-			for (int row = 0, col = count; row < board.length && col >= 0; row++, col--) {
-				Position position = new Position(row, col);
-				diagonal.add(position);
-			}
-			diagonals.add(diagonal);
-			count++;
-		}
-		/* lower right */
-		count = 0;
-		while (count <= board.length - 1) {
-			List<Position> diagonal = new ArrayList<>();
-			for (int row = count, col = board.length - 1; row < board.length && col >= 0; row++, col--) {
-				Position position = new Position(row, col);
-				diagonal.add(position);
-			}
-			diagonals.add(diagonal);
-		}
-		
-		for (int i = 0; i < diagonals.size() && !hasWinner; i++) {
-			List<Position> diagonal = diagonals.get(i);
+		return positions;
+	}
+	
+	/**
+	 * Evaluate Scores
+	 * @param positions
+	 * @param color
+	 * @return
+	 */
+	private long evaluateScore(List<List<Position>> positions, String color) {
+		long blackScore = 0, whiteScore = 0;
+		int blacks = 0, whites = 0;
+		for (int i = 0; i < positions.size() && !hasWinner; i++) {
 			if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
 			if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
 			blacks = 0; whites = 0;
-			for (int j = 0; j < diagonal.size() && !hasWinner; j++) {
-				Position position = diagonal.get(j);
+			List<Position> consecutive = new ArrayList<>();
+			for (Position position : consecutive) {
 				Pawn currentPawn = board[position.getX()][position.getY()].getPawn();
 				if (currentPawn != null) {
 					if (currentPawn.getColor().equals("black")) {
 						if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
 						whites = 0;
-						blacks++;
-						if (blacks == 5) {
-							hasWinner = true;
-							winner = "black";
-						} else {
-							if (blacks > 0) blackScore += (long) Math.pow(2.0, whites * 1.0);
-							blacks = 0;
-							whites++;
-							if (whites == 5) {
-								hasWinner = true;
-								winner = "white";
-							}
-						}
-					}
-				} else {
-					if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
-					if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
-					blacks = 0; whites = 0;
-				}
-			}
-		}
-		
-		if (color.equals("black")) return blackScore - whiteScore;
-		else return whiteScore - blackScore;
-	}
-	
-	/**
-	 * Calculate scores based on vertical consecutive pawns
-	 * @param color
-	 * @return
-	 */
-	private long verticalScore(String color) {
-		long blackScore = Long.MIN_VALUE, whiteScore = Long.MIN_VALUE;
-		int blacks = 0, whites = 0;
-		for (int col = 0; col < board.length && !hasWinner; col++) {
-			if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
-			if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
-			blacks = 0; whites = 0;
-			for (int row = 0; row < board.length && !hasWinner; row++) {
-				if (board[row][col].getPawn() != null) {
-					Pawn currentPawn = board[row][col].getPawn();
-					if (currentPawn.getColor().equals("black")) {
-						if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
-						whites = 0;
-						blacks++;
-						if (blacks == 5) {
-							hasWinner = true;
-							winner = "black";
-						}
-					} else {
-						if (blacks > 0) blackScore += (long) Math.pow(2.0, whites * 1.0);
-						blacks = 0;
-						whites++;
-						if (whites == 5) {
-							hasWinner = true;
-							winner = "white";
-						}
-					}
-				} else {
-					if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
-					if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
-					blacks = 0; whites = 0;
-				}
-			}
-		}
-		if (color.equals("black")) return blackScore - whiteScore;
-		else return whiteScore - blackScore;
-	}
-	
-	/**
-	 * Calculate scores based on horizontal consecutive pawns
-	 * @param color
-	 * @return
-	 */
-	private long horizontalScore(String color) {
-		long blackScore = Long.MIN_VALUE, whiteScore = Long.MIN_VALUE;
-		for (int row = 0; row < board.length && !hasWinner; row++) {
-			int blacks = 0, whites = 0;
-			for (int col = 0; col < board.length && !hasWinner; col++) {
-				if (board[row][col].getPawn() != null) {
-					Pawn currentPawn = board[row][col].getPawn();
-					if (currentPawn.getColor().equals("black")) {
-						if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
-						whites = 0;
-						blacks++;
-						if (blacks == 5) {
-							hasWinner = true;
-							winner = "black";
+						if (blacks++ == 5) {
+							blackScore = Long.MAX_VALUE;
+							hasWinner = true; winner = "black"; break;
 						}
 					} else {
 						if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
 						blacks = 0;
-						whites++;
-						if (whites == 5) {
-							hasWinner = true;
-							winner = "white";
+						if (whites++ == 5) {
+							whiteScore = Long.MAX_VALUE;
+							hasWinner = true; winner = "white"; break;
 						}
 					}
 				} else {
-					if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
 					if (blacks > 0) blackScore += (long) Math.pow(2.0, blacks * 1.0);
-					whites = 0; blacks = 0;
+					if (whites > 0) whiteScore += (long) Math.pow(2.0, whites * 1.0);
+					blacks = 0; whites = 0;
 				}
 			}
 		}
