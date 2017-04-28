@@ -25,6 +25,12 @@ public class Position {
 		this.y = y;
 	}
 	
+	@Override
+	public boolean equals(Object that){
+		if (this.x == ((Position) that).x && this.y == ((Position)that).y) return true;
+		return false;
+	}
+	
 	/**
 	 * Accessor to x
 	 * @return

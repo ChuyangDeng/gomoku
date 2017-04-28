@@ -12,8 +12,8 @@ public class HumanPlayer implements Player{
 	String color;
 	String name;
 	int boardSize;
-	ArrayList<Cell> myCells;
-	ArrayList<Cell> opponentCells;
+	ArrayList<Position> myPositions;
+	ArrayList<Position> opponentPositions;
 	
 	/**
 	 * Constructor
@@ -24,40 +24,51 @@ public class HumanPlayer implements Player{
 		this.color = color;
 		this.name = name;
 		this.boardSize = boardSize;
-		myCells = new ArrayList<>();
-		opponentCells = new ArrayList<>();
+		myPositions = new ArrayList<>();
+		opponentPositions = new ArrayList<>();
 	}
 	
 	@Override
 	public Pawn makeMove(Cell opponent) {
 		// TODO Auto-generated method stub
+		Position o = new Position(opponent.getX(), opponent.getY());
+		opponentPositions.add(o);
 		Scanner in = new Scanner(System.in);
-		int x = -1;
-		while (x < 0 || x > boardSize - 1){
-			System.out.println("Please enter the row number: (0 to " + boardSize + ")");
-			String temp = in.nextLine();
-			try{
-				x = Integer.valueOf(temp);
-			} catch (Exception e){
-				System.out.println("Please enter a valid input. ");
+//		Position position = null;
+		Pawn p = null;
+		
+		while (p == null){
+			int x = -1;
+			while (x < 0 || x > boardSize - 1){
+				System.out.println("Please enter the row number: (0 to " + boardSize + ")");
+				String temp = in.nextLine();
+				try{
+					x = Integer.valueOf(temp);
+				} catch (Exception e){
+					System.out.println("Please enter a valid input. ");
+				}
+			}
+			int y = -1;
+			while (y < 0 || y > boardSize - 1){
+				System.out.println("Please enter the column number: (0 to " + boardSize + ")");
+				String temp = in.nextLine();
+				try{
+					y = Integer.valueOf(temp);
+				} catch (Exception e){
+					System.out.println("Please enter a valid input. ");
+				}
+			}
+			
+			Position newPos = new Position(x, y);
+			if (myPositions.contains(newPos) || opponentPositions.contains(newPos)){
+				System.out.println("This spot is occupied.");
+				continue;
+			} else {
+				p = new Pawn(color);
+				p.setPawn(x, y);
+				myPositions.add(newPos);	
 			}
 		}
-		int y = -1;
-		while (y < 0 || y > boardSize - 1){
-			System.out.println("Please enter the column number: (0 to " + boardSize + ")");
-			String temp = in.nextLine();
-			try{
-				y = Integer.valueOf(temp);
-			} catch (Exception e){
-				System.out.println("Please enter a valid input. ");
-			}
-		}
-		
-//		in.close();
-		
-		Pawn p = new Pawn(color);
-		p.setPawn(x, y);
-		
 		return p;
 	}
 

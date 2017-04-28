@@ -33,6 +33,14 @@ public class Pawn {
 	}
 	
 	/**
+	 * Accessor to Pawn's position
+	 * @return
+	 */
+	public Position getPosition(){
+		return position;
+	}
+	
+	/**
 	 * Accessor to this Pawn's color.
 	 * @return
 	 */
