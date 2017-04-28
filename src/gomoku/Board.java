@@ -17,6 +17,7 @@ public class Board {
 	private Cell[][] board;
 	private boolean hasWinner;
 	private String winner;
+	private int size;
 	
 	/**
 	 * Constructor of Board
@@ -29,6 +30,7 @@ public class Board {
 				board[i][j] = new Cell(i, j);
 			}
 		}
+		this.size = size;
 		hasWinner = false;
 		winner = null;
 	}
@@ -163,6 +165,26 @@ public class Board {
 		}
 		if (color.equals("black")) return blackScore - whiteScore;
 		else return whiteScore - blackScore;
+	}
+	
+	/**
+	 * Prints the game board in terminal
+	 */
+	public void printBoard(){
+		for (int i = 0; i < size; i ++){
+			for (int j = 0; j < size; j ++){
+				if (board[i][j].isOccupied()){
+					if (board[i][j].getPawn().getColor().equalsIgnoreCase("black")){
+						System.out.print("X" + " ");
+					} else {
+						System.out.print("O" + " ");
+					}
+				} else {
+					System.out.print("_" + " ");
+				}
+			}
+			System.out.println("");
+		}
 	}
 	
 	/**

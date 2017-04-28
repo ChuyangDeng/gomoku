@@ -20,7 +20,7 @@ public class HumanPlayer implements Player{
 	 * @param color pawn color
 	 * @param name player name
 	 */
-	public HumanPlayer(String color, String name, int boradSize){
+	public HumanPlayer(String color, String name, int boardSize){
 		this.color = color;
 		this.name = name;
 		this.boardSize = boardSize;
@@ -35,15 +35,25 @@ public class HumanPlayer implements Player{
 		int x = -1;
 		while (x < 0 || x > boardSize - 1){
 			System.out.println("Please enter the row number: (0 to " + boardSize + ")");
-			x = in.nextInt();
+			String temp = in.nextLine();
+			try{
+				x = Integer.valueOf(temp);
+			} catch (Exception e){
+				System.out.println("Please enter a valid input. ");
+			}
 		}
 		int y = -1;
 		while (y < 0 || y > boardSize - 1){
 			System.out.println("Please enter the column number: (0 to " + boardSize + ")");
-			y = in.nextInt();
+			String temp = in.nextLine();
+			try{
+				y = Integer.valueOf(temp);
+			} catch (Exception e){
+				System.out.println("Please enter a valid input. ");
+			}
 		}
 		
-		in.close();
+//		in.close();
 		
 		Pawn p = new Pawn(color);
 		p.setPawn(x, y);

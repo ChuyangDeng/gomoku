@@ -47,13 +47,16 @@ public class Minimax {
 		for (int i = 0; i < positions.size(); i++) { // check for every legal position
 			Position position = positions.get(i);
 			positions.remove(position);
+			// why remove?
 			Pawn pawn = new Pawn(color);
 			pawn.setPawn(position.getX(), position.getY());
 			board.setMove(pawn);
 			copy = copyBoard(board);
 			availables = copyAvailablePositions(positions, position);
-			double currentScore = minScore(availables, 0);
-			if (currentScore > best) move = position;
+			double currentScore = minScore(availables, 0);   // index?
+			/* update best? */
+			if (currentScore > best) 
+				move = position;
 			board.removePawn(position);
 			availables.add(i, position);
 		}
