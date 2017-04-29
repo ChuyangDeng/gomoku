@@ -44,5 +44,5 @@ Board --> Cell
 
 - Iterative Deepening
 
-- Monte Carlo Tree Search
-
+## JAVAFX
+Stage --> Scene --> Layout
