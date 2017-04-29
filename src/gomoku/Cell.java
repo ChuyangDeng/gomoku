@@ -25,6 +25,7 @@ public class Cell {
 	 */
 	public void setPawn(Pawn p){
 		this.p = p;
+		position = new Position(p.getX(), p.getY());
 	}
 	
 	/**

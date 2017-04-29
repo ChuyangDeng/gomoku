@@ -1,5 +1,10 @@
 package gomoku;
 
+/**
+ * This is the tester class. It creates player objects and a GomokuGame object and runs the game in the console.
+ * @author paula
+ *
+ */
 public class Tester {
 
 	public static void main(String[] args) {

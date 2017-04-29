@@ -168,7 +168,7 @@ public class Board {
 	}
 	
 	/**
-	 * Prints the game board in terminal
+	 * Prints game board in console
 	 */
 	public void printBoard(){
 		for (int i = 0; i < size; i ++){
@@ -188,11 +188,161 @@ public class Board {
 	}
 	
 	/**
-	 * Check for 5 consecutive cells of same color
-	 * @return
+	 * Check whether last move creates 5 consecutive cells of same color
+	 * @param lastMove last move made by player
+	 * @return true if there is a winner, false otherwise
 	 */
-	public boolean checkWinner() {
-		return hasWinner;
+	public boolean checkWinner(Cell lastMove) {
+		if (isValidCell(lastMove)){
+			if (checkRowWinner(lastMove) || checkColWinner(lastMove) || checkLDiagWinner(lastMove) || checkRDiagWinner(lastMove)){
+				winner = lastMove.getPawn().getColor();
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Helper method to check for 5 consecutive cells of same color in a column
+	 * @param lastMove last move made by player
+	 * @return true if there are 5 consecutive cells of same color in a column
+	 */
+	private boolean checkColWinner(Cell lastMove){
+		int x = lastMove.getX();
+		int y = lastMove.getY();
+		String color = lastMove.getPawn().getColor();
+		int consecutive = 0;
+		
+		for (int i = x - 4; i < x + 1; i ++){
+			for (int j = 0; j < 5; j ++){
+				try{
+					if (board[i + j][y].getPawn().getColor().equals(color) && color != null){
+						consecutive ++;
+					} else {
+						break;
+					}
+				} catch (IndexOutOfBoundsException e){
+					break;
+				} catch (NullPointerException e){
+					break;
+				}
+			}
+			if (consecutive == 5) return true;
+			consecutive = 0;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Helper method to check for 5 consecutive cells of same color in a row
+	 * @param lastMove last move made by player
+	 * @return true if there are 5 consecutive cells of same color in a row
+	 */
+	private boolean checkRowWinner(Cell lastMove){
+		int x = lastMove.getX();
+		int y = lastMove.getY();
+		String color = lastMove.getPawn().getColor();
+		int consecutive = 0;
+		
+		for (int i = y - 4; i < y + 1; i ++){
+			for (int j = 0; j < 5; j ++){
+				try{
+					if (board[x][i + j].getPawn().getColor().equals(color) && color != null){
+						consecutive ++;
+					} else {
+						break;
+					}
+				} catch (IndexOutOfBoundsException e){
+					break;
+				} catch (NullPointerException e){
+					break;
+				}
+			}
+			if (consecutive == 5) return true;
+			consecutive = 0;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Helper method to check for 5 consecutive cells of same color in the left diagonal
+	 * @param lastMove last move made by player
+	 * @return true if there are 5 consecutive cells of same color in the left diagonal
+	 */
+	private boolean checkLDiagWinner(Cell lastMove){
+		int x = lastMove.getX();
+		int y = lastMove.getY();
+		String color = lastMove.getPawn().getColor();
+		int consecutive = 0;
+		
+		for (int i = x - 4; i < x + 1; i ++){
+			for (int j = 0; j < 5; j ++){
+				try{
+					if (board[i + j][y - x + i + j].getPawn().getColor().equals(color) && color != null){
+						consecutive ++;
+					} else {
+						break;
+					}
+				} catch (IndexOutOfBoundsException e){
+					break;
+				} catch (NullPointerException e){
+					break;
+				}
+			}
+			if (consecutive == 5) return true;
+			consecutive = 0;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Helper method to check for 5 consecutive cells of same color in the right diagonal
+	 * @param lastMove last move made by player
+	 * @return true if there are 5 consecutive cells of same color in the right diagonal
+	 */
+	private boolean checkRDiagWinner(Cell lastMove){
+		int x = lastMove.getX();
+		int y = lastMove.getY();
+		String color = lastMove.getPawn().getColor();
+		int consecutive = 0;
+		
+		for (int i = x - 4; i < x + 1; i ++){
+			for (int j = 0; j < 5; j ++){
+				try{
+					if (board[i + j][x + y - i - j].getPawn().getColor().equals(color) && color != null){
+						consecutive ++;
+					} else {
+						break;
+					}
+				} catch (IndexOutOfBoundsException e){
+					break;
+				} catch (NullPointerException e){
+					break;
+				}
+			}
+			if (consecutive == 5) return true;
+			consecutive = 0;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks if the given cell is a valid cell on the board
+	 * @param cell
+	 * @return true if valid, false otherwise
+	 */
+	private boolean isValidCell(Cell cell){
+		int x = cell.getX();
+		int y = cell.getY();
+		if (x >= 0 && x < size && y >= 0 && y < size){
+			return true;
+		}
+		return false;
 	}
 	
 	/**
