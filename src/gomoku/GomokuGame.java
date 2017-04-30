@@ -1,11 +1,14 @@
 package gomoku;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+
 /**
  * This class implements a gomoku game. It allows 2 users to play the game and declares the winner in the end.
  * @author paula
  *
  */
-public class GomokuGame {
+public class GomokuGame implements EventHandler<MouseEvent>{
 	private Player player1;
 	private Player player2;
 	private Board board;
@@ -36,7 +39,7 @@ public class GomokuGame {
 		/* loop until there is a winner */
 		while (!board.checkWinner(opponentMove)){
 			if (round % 2 == 1){
-				System.out.println("Player1's turn");
+				System.out.println(player1.getName() + "'s turn");
 				Pawn current = player1.makeMove(opponentMove);
 				System.out.println(current.getColor());
 				board.setMove(current);
@@ -46,7 +49,7 @@ public class GomokuGame {
 //				board.evaluate(player1.getColor());
 //				System.out.println("End evaluating");
 			} else {
-				System.out.println("Player2's turn");
+				System.out.println(player2.getName() + "'s turn");
 				Pawn current =  player2.makeMove(opponentMove);
 				board.setMove(current);
 				opponentMove.setPawn(current);
@@ -60,6 +63,11 @@ public class GomokuGame {
 		/* declare the winner */
 		System.out.println(board.declareWinner() + " wins!");
 		return board.checkWinner(opponentMove);
+	}
+
+	@Override
+	public void handle(MouseEvent event) {
+		
 	}
 	
 }

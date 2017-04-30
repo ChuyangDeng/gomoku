@@ -15,11 +15,10 @@ public class Tester extends Application {
 	
 	static Player player1;
 	static Player player2;
+	static GomokuGame game;
 
 	public static void main(String[] args) throws Exception {
 		launch(args);
-		GomokuGame game = new GomokuGame(15, player1, player2);
-		game.playGame();
 	}
 	
 	/**
@@ -35,8 +34,11 @@ public class Tester extends Application {
 		
 		startBtn.setLayoutX(100); startBtn.setLayoutY(50);
 		startBtn.setMinWidth(root.getPrefWidth());
-		Board board = new Board(15);
-		startBtn.setOnAction(board);
+		startBtn.setOnAction(e -> {
+			System.out.println("Game On ...");
+			game = new GomokuGame(15, player1, player2);
+			game.playGame();
+		});
 		
 		exitBtn.setLayoutX(100); exitBtn.setLayoutY(100);
 		exitBtn.setMinWidth(root.getPrefWidth());
@@ -45,7 +47,6 @@ public class Tester extends Application {
 			System.exit(0);
 		});
 		
-		/* TODO: set human player to black */
 		blackBtn.setLayoutX(200); blackBtn.setLayoutY(50);
 		blackBtn.setMinWidth(root.getPrefWidth());
 		blackBtn.setOnAction(e -> {
@@ -54,7 +55,6 @@ public class Tester extends Application {
 			System.out.println("BLACK: " + player1.getName() + " vs " + "WHITE: " + player2.getName());
 		});
 		
-		/* TODO: set computer player to white */
 		whiteBtn.setLayoutX(200); whiteBtn.setLayoutY(100);
 		whiteBtn.setMinWidth(root.getPrefWidth());
 		whiteBtn.setOnAction(e -> {
