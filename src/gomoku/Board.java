@@ -3,13 +3,28 @@ package gomoku;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.scene.Scene;
+import javafx.scene.control.Control;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+
 /**
  * 
  * This is the Board class, it maintains Cells and check for winners.
  * @author chuyangdeng
  *
  */
-public class Board {
+public class Board implements EventHandler<ActionEvent>{
 	
 	/**
 	 * Instance variables
@@ -378,5 +393,32 @@ public class Board {
 	public int getSize() {
 		return board.length;
 	}
-
+	
+	/**
+	 * UI of chess board
+	 */
+	@Override
+	public void handle(ActionEvent event) {
+		Stage secondaryStage = new Stage();
+		secondaryStage.setTitle("Chess Board");
+		GridPane root = new GridPane();
+		final int size = 15;
+		for (int row = 0; row < size; row++) {
+			for (int col = 0; col < size; col++) {
+				Rectangle square = new Rectangle();
+				square.setWidth(30);
+				square.setHeight(30);
+				square.setFill(Color.BEIGE);
+				
+				root.add(square, row, col);
+			}
+		}
+		/* place the initial pawn here */
+		Pawn initial = new Pawn("black");
+		initial.setPawn(7, 7);
+		root.setOnMouseClicked(initial);
+		secondaryStage.setScene(new Scene(root, 450, 450));
+		secondaryStage.show();
+	}
+	
 }
