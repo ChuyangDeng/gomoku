@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+
 /**
  * 
  * This is the Random Player class. It implements Player Interface and make moves randomly.
  * @author chuyangdeng
  *
  */
-public class RandomPlayer implements Player{
+public class RandomPlayer implements Player, EventHandler<MouseEvent>{
 	
 	/**
 	 * Instance variables.
@@ -67,6 +70,15 @@ public class RandomPlayer implements Player{
 				availableCells.add(position);
 			}
 		}
+	}
+
+	/**
+	 * TODO: implement player's handler
+	 */
+	@Override
+	public void handle(MouseEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

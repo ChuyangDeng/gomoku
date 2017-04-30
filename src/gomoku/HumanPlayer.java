@@ -3,12 +3,15 @@ package gomoku;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+
 /**
  * This class implements a human player
  * @author paula
  *	
  */
-public class HumanPlayer implements Player{
+public class HumanPlayer implements Player, EventHandler<MouseEvent>{
 	String color;
 	String name;
 	int boardSize;
@@ -81,6 +84,14 @@ public class HumanPlayer implements Player{
 	@Override
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * TODO: implement player's 
+	 */
+	@Override
+	public void handle(MouseEvent event) {
+		
 	}
 
 }
