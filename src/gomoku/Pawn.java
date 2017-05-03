@@ -1,12 +1,5 @@
 package gomoku;
 
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -15,16 +8,13 @@ import javafx.stage.Stage;
  * @author chuyangdeng
  *
  */
-public class Pawn implements EventHandler<MouseEvent> {
+public class Pawn {
 	
 	/**
 	 * Instance variables
 	 */
 	private String color;
 	private Position position;
-	
-	private GridPane root;
-	private Stage stage;
 	
 	/**
 	 * Constructor of Pawn
@@ -33,8 +23,6 @@ public class Pawn implements EventHandler<MouseEvent> {
 	 */
 	public Pawn(String color) {
 		this.color = color;
-		root = new GridPane();
-		stage = new Stage();
 	}
 	
 	/**
@@ -77,28 +65,5 @@ public class Pawn implements EventHandler<MouseEvent> {
 	public int getY() {
 		return position.getY();
 	}
-
-	@Override
-	public void handle(MouseEvent event) {
-		final int size = 15;
-		for (int row = 0; row < size; row++) {
-			for (int col = 0; col < size; col++) {
-				Rectangle square = new Rectangle();
-				square.setWidth(30);
-				square.setHeight(30);
-				square.setFill(Color.BEIGE);
-				
-				root.add(square, row, col);
-			}
-		}
-		Circle circle = new Circle();
-		circle.setRadius(15);
-		if (color.equals("black")) circle.setFill(Color.BLACK);
-		if (color.equals("white")) circle.setFill(Color.WHITE);
-		root.add(circle, getX(), getY());
-		stage.setScene(new Scene(root, 450, 450));
-		stage.show();
-	}
 	
-
 }

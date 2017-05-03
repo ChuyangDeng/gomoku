@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  * @author chuyangdeng
  *
  */
-public class Board implements EventHandler<ActionEvent>{
+public class Board {
 	
 	/**
 	 * Instance variables
@@ -393,32 +393,6 @@ public class Board implements EventHandler<ActionEvent>{
 	public int getSize() {
 		return board.length;
 	}
-	
-	/**
-	 * UI of chess board
-	 */
-	@Override
-	public void handle(ActionEvent event) {
-		Stage secondaryStage = new Stage();
-		secondaryStage.setTitle("Chess Board");
-		GridPane root = new GridPane();
-		final int size = 15;
-		for (int row = 0; row < size; row++) {
-			for (int col = 0; col < size; col++) {
-				Rectangle square = new Rectangle();
-				square.setWidth(30);
-				square.setHeight(30);
-				square.setFill(Color.BEIGE);
-				
-				root.add(square, row, col);
-			}
-		}
-		/* place the initial pawn here */
-		Pawn initial = new Pawn("black");
-		initial.setPawn(7, 7);
-		root.setOnMouseClicked(initial);
-		secondaryStage.setScene(new Scene(root, 450, 450));
-		secondaryStage.show();
-	}
+
 	
 }
