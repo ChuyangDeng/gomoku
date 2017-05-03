@@ -1,6 +1,7 @@
 package gomoku;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -12,6 +13,8 @@ public class CellFX extends Rectangle{
 	
 	private PawnFX p;
 	private Position position;
+	private Line hline;
+	private Line vline = new Line();
 	
 	/**
 	 * Constructor
@@ -21,23 +24,36 @@ public class CellFX extends Rectangle{
 	public CellFX(int x, int y){
 		setWidth(TesterFX.cellSize);
 		setHeight(TesterFX.cellSize);
-//		setStyle("-fx-border-color: black");
+		hline = new Line(0, 0.5 * TesterFX.cellSize, TesterFX.cellSize, 0.5 * TesterFX.cellSize);
+		hline.setStroke(Color.BLACK);
+//		hline.relocate(x * TesterFX.cellSize, y * TesterFX.cellSize);
+		
 		setStroke(Color.BLACK);
-		setFill(Color.WHITE);
+		setFill(Color.GRAY);
 		
 		relocate(x * TesterFX.cellSize, y * TesterFX.cellSize);
+		
 		
 		p = null;
 		position = new Position(x, y);
 	}
 	
+	
+	/**
+	 * Get hline
+	 * @return
+	 */
+	public Line getHline() {
+		return hline;
+	}
+
 	/**
 	 * set pawn at cell
 	 * @param p pawn
 	 */
 	public void setPawn(PawnFX p){
 		this.p = p;
-//		position = new Position(p.getX(), p.getY());
+		position = new Position(p.getX(), p.getY());
 	}
 	
 	/**
