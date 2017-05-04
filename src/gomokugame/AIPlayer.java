@@ -138,7 +138,7 @@ public class AIPlayer {
 		} else if (depth > maxDepth) {
 			return new Node(null, evaluate(board));
 		}
-		int R = 19, C = 19;
+		int R = 15, C = 15;
 		int[][] dis = new int[R][C];
 		for (int i = 0; i < R; i++)
 			for (int j = 0; j < C; j++)
