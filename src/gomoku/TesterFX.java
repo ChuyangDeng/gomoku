@@ -25,7 +25,7 @@ public class TesterFX extends Application {
 	
 	static Player player1;
 	static Player player2;
-	final static int size = 16;
+	final static int size = 15;
 	final static int cellSize = 50;
 	private CellFX[][] board = new CellFX[size][size];
 	
@@ -38,6 +38,10 @@ public class TesterFX extends Application {
 
 	public static void main(String[] args) throws Exception {
 		launch(args);
+		Player player1 = new HumanPlayer("black", "human player", 15);
+		Player player2  = new RandomPlayer("white", "computer player", 15);
+		game = new GomokuGame(15, player1, player2);
+		game.playGame();
 	}
 	
 	/**
@@ -51,17 +55,21 @@ public class TesterFX extends Application {
 		
 		for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j ++) {
-                CellFX cell = new CellFX(i, j);
+                CellFX cell = new CellFX(null, i, j);
                 board[i][j] = cell;
-                Line hline = cell.getHline();
+//                Line hline = cell.getHline();
+//                Line vline = cell.getVline();
+//                hline.relocate(i * TesterFX.cellSize, j * TesterFX.cellSize);
                 final int finalI = i;
                 final int finalJ = j;
                 cell.setOnMousePressed(e -> {
                 	PawnFX pawn = new PawnFX("black", finalI, finalJ);
+                	cell.setPawn(pawn);
                 	pawnGroup.getChildren().add(pawn);
                 });
 //                cell.setStyle("-fx-border-color: black");
-                cellGroup.getChildren().addAll(hline, cell);
+//                cellGroup.getChildren().addAll(hline, vline, cell);
+                cellGroup.getChildren().addAll(cell);
             }
         }
 		

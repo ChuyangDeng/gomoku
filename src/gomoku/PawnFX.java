@@ -30,7 +30,8 @@ public class PawnFX extends StackPane {
 		this.color = color;
 		setPawn(x, y);
 		
-		relocate(x * TesterFX.cellSize, y * TesterFX.cellSize);
+		relocate((x + 0.15) * TesterFX.cellSize, (y + 0.15) * TesterFX.cellSize);
+//		relocate((0.15) * TesterFX.cellSize, (0.15) * TesterFX.cellSize);
 		Ellipse pawn = new Ellipse(TesterFX.cellSize * 0.3, TesterFX.cellSize * 0.3);
 		pawn.setFill(color.equals("black") ? Color.BLACK : Color.WHITE);
 		pawn.setStroke(Color.BLACK);
