@@ -55,22 +55,6 @@ public class GomokuGame extends JPanel{
 		
 		whitePawn = new PawnPainter("WHITE-PAWN-IMAGE-PATH");
 		blackPawn = new PawnPainter("BLACK-PAWN-IMAGE-PATH");
-		
-		/**
-		 * TODO: IMPLEMENT MOUSE LISTENER
-		 */
-		this.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				if (e.getButton() == 1) {
-					int x = (e.getX() - CELL_OFFSET) / CELL_SIZE;
-					int y = (e.getY() - CELL_OFFSET) / CELL_SIZE;
-					if (!win) {
-						
-					}
-				}
-			}
-		});
 	}
 	
 	/**
@@ -80,7 +64,6 @@ public class GomokuGame extends JPanel{
 	public boolean playGame(){
 		int round = 1;
 		Cell opponentMove = new Cell(-1, -1);
-//		Cell temp = new Cell(-1, -1);
 		
 		/* loop until there is a winner */
 		while (!board.checkWinner(opponentMove)){
@@ -90,19 +73,13 @@ public class GomokuGame extends JPanel{
 				System.out.println(current.getColor());
 				board.setMove(current);
 				opponentMove.setPawn(current);
-				board.printBoard();
-//				System.out.println("Start evaluating");
-//				board.evaluate(player1.getColor());
-//				System.out.println("End evaluating");
 			} else {
 				System.out.println(player2.getName() + "'s turn");
 				Pawn current =  player2.makeMove(opponentMove);
 				board.setMove(current);
 				opponentMove.setPawn(current);
 				board.printBoard();
-//				board.evaluate(player2.getColor());
 			}
-			
 			round ++;
 		}
 		
