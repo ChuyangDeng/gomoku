@@ -185,21 +185,29 @@ public class Board {
 	/**
 	 * Prints game board in console
 	 */
-	public void printBoard(){
+	public String printBoard(){
+		StringBuilder sb = new StringBuilder();
+		
 		for (int i = 0; i < size; i ++){
 			for (int j = 0; j < size; j ++){
 				if (board[i][j].isOccupied()){
 					if (board[i][j].getPawn().getColor().equalsIgnoreCase("black")){
-						System.out.print("X" + " ");
+//						System.out.print("X" + " ");
+						sb.append("X ");
 					} else {
-						System.out.print("O" + " ");
+//						System.out.print("O" + " ");
+						sb.append("O ");
 					}
 				} else {
-					System.out.print("_" + " ");
+					sb.append("_ ");
+//					System.out.print("_" + " ");
 				}
 			}
-			System.out.println("");
+			sb.append("\n");
+//			System.out.println("");
 		}
+		
+		return sb.toString();
 	}
 	
 	/**
