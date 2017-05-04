@@ -60,7 +60,7 @@ public class InteractiveBoard extends Application {
 			int x = translateToBoard(event.getX());
 			int y = translateToBoard(event.getY());
 			if (x == -1 || y == -1) return; // if outside the board, do nothing
-			if (!takeTurn(x, y)) return;
+			if (!takeTurn(x, y, "Player")) return;
 			
 			// if playing against an ai, let it take a turn
 			if (!gamemode.equals("PVP")) {
@@ -69,17 +69,26 @@ public class InteractiveBoard extends Application {
 		}
 	}
 	
-	private boolean takeTurn(int x, int y) {
+	private boolean takeTurn(int x, int y, String s) {
 		boolean legalmove = board.isOccupied(x, y);
 		if (!legalmove) return false;
-		drawBoard();
+		System.out.println("Take Turn");
+		
 		
 		if (board.isFull()) {
 			newGame("Draw!");
 			return false;
+		} else {
+			if (currentplayer == Player.BLACK){
+				board.updateBoard(x, y, "black");
+			} else if (currentplayer == Player.WHITE){
+				board.updateBoard(x, y, "white");
+			}	
 		}
 		
-		Player winner = board.checkWinner(position);
+		drawBoard();
+		
+		Player winner = board.checkWinner();
 		if (winner != null) {
 			newGame("Winner is: " + winner);
 			return false;
@@ -96,7 +105,7 @@ public class InteractiveBoard extends Application {
 	public boolean takeComputerTurn() {
 		Position move = computerplayer.getMove(board, currentplayer);
 		System.out.println(move);
-		return takeTurn(move.getX(), move.getY());
+		return takeTurn(move.getX(), move.getY(), "Computer");
 	}
 	
 	private void newGame(String message) {

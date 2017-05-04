@@ -42,7 +42,7 @@ public class AIPlayer {
 	}
 	
 	private double numOfActive(Player[][] board, Player piece, int n) {
-		int R = 15, C = 15;
+		int R = 19, C = 19;
 		double res = 0;
 		int deadEnd,l;
 		int[][] d = {{0, 1}, {1, 1}, {1, 0}, {1, -1}};
@@ -67,7 +67,7 @@ public class AIPlayer {
 	}
 	
 	private void bfs(Player[][] board, int[][] dis) {
-		int R = 15, C = 15;
+		int R = 19, C = 19;
 		int[][] d = { { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 },
 				{ -1, -1 }, { 0, -1 }, { 1, -1 } };
 		Queue<Position> q = new LinkedList<Position>();
@@ -100,7 +100,7 @@ public class AIPlayer {
 			return new Node(null, evaluate(board));
 		}
 		
-		int R = 15, C = 15;
+		int R = 19, C = 19;
 		int[][] dis = new int[R][C];
 		for (int i = 0; i < R; i++) {
 			for (int j = 0; j < C; j++) {
@@ -138,7 +138,7 @@ public class AIPlayer {
 		} else if (depth > maxDepth) {
 			return new Node(null, evaluate(board));
 		}
-		int R = 15, C = 15;
+		int R = 19, C = 19;
 		int[][] dis = new int[R][C];
 		for (int i = 0; i < R; i++)
 			for (int j = 0; j < C; j++)
@@ -165,11 +165,11 @@ public class AIPlayer {
 	}
 	
 	public static boolean validPosition(int x, int y) {
-		return x >= 0 && x <= 15 && y >= 0 && y <= 15;
+		return x >= 0 && x <= 19 && y >= 0 && y <= 19;
 	}
 	
 	public static boolean playerWins(Player[][] board, Player player) {
-		int R = 15, C = 15;
+		int R = 19, C = 19;
 		int[][] d = {
 				{0, 1},
 				{1, 1},
