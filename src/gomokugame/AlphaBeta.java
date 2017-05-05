@@ -3,15 +3,27 @@ package gomokugame;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * 
+ * This class implements Strategy Interface.
+ * It applies Mini-Max algorithm to find out the best move for AIPlayer, and uses Alpha-Beta pruning to speed calculation.
+ * @author chuyangdeng
+ *
+ */
 public class AlphaBeta implements Strategy {
 	
+	/**
+	 * Instance Variables
+	 */
 	private int maxDepth = 2;
-	private int paddingDis = 1;
+	private int count = 1;
 	
+	@Override
 	public Position getMove(Board board, Player currentPlayer) {
 		return makeMove(board.getBoard(), currentPlayer);
 	}
 	
+	@Override
 	public Position makeMove(Player[][] board, Player player) {
 		Cell move = null;
 		if (player == Player.BLACK) {
@@ -30,6 +42,14 @@ public class AlphaBeta implements Strategy {
 		return move.getPosition();
 	}
 	
+	/**
+	 * AIPlayer's strategy gives priority to defense.
+	 * If it detects opponent have pawns 2 in a row (rows, columns, diagonals), it will prevent opponents from winning,
+	 * by setting a pawn next to opponent's 3 contiguous pawns.
+	 * @param board
+	 * @param player
+	 * @return
+	 */
 	public Cell defense(Player[][] board, Player player) {
 		Cell defense = null;
 		Player opponent;
@@ -78,16 +98,30 @@ public class AlphaBeta implements Strategy {
 		return defense;
 	}
 	
+	/**
+	 * This method collect information from a cell's neighbor positions that are 1/2/3 cells away and calculate a score.
+	 * The further the cell is, the more weight it will be given.
+	 * @param board
+	 * @return
+	 */
 	private int evaluate(Player[][] board) {
-		double Ba1 = numOfActive(board, Player.BLACK, 1);
-		double Wa1 = numOfActive(board, Player.WHITE, 1);
-		double Ba2 = numOfActive(board, Player.BLACK, 2);
-		double Wa2 = numOfActive(board, Player.WHITE, 2);
-		double Ba3 = numOfActive(board, Player.BLACK, 3);
-		double Wa3 = numOfActive(board, Player.WHITE, 3);
-		return (int) (10 * (Ba1 - Wa1) + 100 * (Ba2 - Wa2) + 400 * (Ba3 - Wa3));
+		double black1 = numOfActive(board, Player.BLACK, 1);
+		double white1 = numOfActive(board, Player.WHITE, 1);
+		double black2 = numOfActive(board, Player.BLACK, 2);
+		double white2 = numOfActive(board, Player.WHITE, 2);
+		double black3 = numOfActive(board, Player.BLACK, 3);
+		double white3 = numOfActive(board, Player.WHITE, 3);
+		return (int) (10 * (black1 - white1) + 100 * (black2 - white2) + 400 * (black3 - white3));
 	}
 	
+	/**
+	 * This method is a helper method of evaluate().
+	 * It calculates the number of AIPlayer's pawns that are 1/2/3 cells away from it.
+	 * @param board
+	 * @param player
+	 * @param n
+	 * @return
+	 */
 	private double numOfActive(Player[][] board, Player player, int n) {
 		int R = 19, C = 19;
 		double active = 0;
@@ -113,16 +147,29 @@ public class AlphaBeta implements Strategy {
 		return active;
 	}
 	
+	/**
+	 * This method goes through the entire board in bfs and set a cell's neighborhood in 8 directions as occupied temporarily.
+	 * @param board
+	 * @param dis
+	 */
 	private void bfs(Player[][] board, int[][] dis) {
 		int R = 19, C = 19;
-		int[][] d = { { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 }, { -1, 0 },
-				{ -1, -1 }, { 0, -1 }, { 1, -1 } };
+		int[][] d = { 
+				{ 1, 0 },
+				{ 1, 1 }, 
+				{ 0, 1 }, 
+				{ -1, 1 }, 
+				{ -1, 0 },
+				{ -1, -1 }, 
+				{ 0, -1 }, 
+				{ 1, -1 } 
+		};
 		Queue<Position> q = new LinkedList<Position>();
 		for (int x = 0; x < R; x++)
 			for (int y = 0; y < C; y++)
 				if (dis[x][y] == 0)
 					q.add(new Position(x, y));
-		if(q.isEmpty())dis[R/2][C/2]=1;
+		if(q.isEmpty()) dis[R/2][C/2]=1;
 		while (!q.isEmpty()) {
 			Position t = q.poll();
 			int i, j;
@@ -131,13 +178,21 @@ public class AlphaBeta implements Strategy {
 				j = t.getY() + d[k][1];
 				if (validPosition(i, j) && dis[i][j] == -1) {
 					dis[i][j] = dis[t.getX()][t.getY()] + 1;
-					if (dis[i][j] < paddingDis)
+					if (dis[i][j] < count)
 						q.add(new Position(i, j));
 				}
 			}
 		}
 	}
 	
+	/**
+	 * The AIPlayer assumes its opponent will make a perfect move at every turn, so it calculates the best score it can gets.
+	 * @param board
+	 * @param min
+	 * @param max
+	 * @param depth
+	 * @return
+	 */
 	private Cell maxScore(Player[][] board, int min, int max, int depth) {
 		if (playerWins(board, Player.BLACK)) {
 			return new Cell(null, Integer.MAX_VALUE);
@@ -149,7 +204,6 @@ public class AlphaBeta implements Strategy {
 		
 		int R = 19, C = 19;
 		int[][] dis = new int[R][C];
-		/* -1: empty; 0: occupied */
 		for (int i = 0; i < R; i++) {
 			for (int j = 0; j < C; j++) {
 				dis[i][j] = board[i][j] == null ? -1 : 0;
@@ -178,6 +232,15 @@ public class AlphaBeta implements Strategy {
 		return new Cell(p, score);
 	}
 	
+	/**
+	 * This method is called interactively with maxScore().
+	 * For the opponent, AIPlayer assumes it makes the best move and takes the minimum of them all as its score.
+	 * @param board
+	 * @param min
+	 * @param max
+	 * @param depth
+	 * @return
+	 */
 	private Cell minScore(Player[][] board, int min, int max, int depth) {
 		if (playerWins(board, Player.BLACK)) {
 			return new Cell(null, Integer.MAX_VALUE);
@@ -212,10 +275,22 @@ public class AlphaBeta implements Strategy {
 		return new Cell(p, score);
 	}
 	
+	/**
+	 * This method checks if a position is inside the chess board.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public static boolean validPosition(int x, int y) {
 		return x >= 0 && x < 19 && y >= 0 && y < 19;
 	}
 	
+	/**
+	 * This method checks if there is a winner already.
+	 * @param board
+	 * @param player
+	 * @return
+	 */
 	public static boolean playerWins(Player[][] board, Player player) {
 		int R = 19, C = 19;
 		int[][] d = {
