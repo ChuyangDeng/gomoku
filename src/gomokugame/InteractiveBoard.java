@@ -28,7 +28,7 @@ public class InteractiveBoard extends Application {
 	private Player currentplayer = Player.WHITE;
 	private boolean gameover = true;
 	private String gamemode;
-	private AIPlayer computerplayer = new AIPlayer();
+	private PlayerInterface computerplayer = new RandomPlayer();
 	private Position position = new Position(-1, -1);
 	
 	public static void main(String[] args) {
@@ -101,7 +101,7 @@ public class InteractiveBoard extends Application {
 	}
 	
 	public boolean takeComputerTurn() {
-		Position move = computerplayer.getMove(board, currentplayer);
+		Position move = computerplayer.nextMove(board, currentplayer);
 		System.out.println(move);
 		return takeTurn(move.getX(), move.getY(), "Computer");
 	}
