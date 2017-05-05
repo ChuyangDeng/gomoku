@@ -1,5 +1,8 @@
 package gomokugame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 	static final int size = 19;
 	private Player[][] board;
@@ -16,7 +19,7 @@ public class Board {
 	 * @param y y-coordinate
 	 * @return true if ***not*** occupied, false otherwise
 	 */
-	public boolean isOccupied(int x, int y){
+	public boolean isEmpty(int x, int y){
 		return board[x][y] == null;
 	}
 	
@@ -48,6 +51,15 @@ public class Board {
 	}
 	
 	/**
+	 * Remove a pawn from board
+	 * @param x
+	 * @param y
+	 */
+	public void removePawn(int x, int y) {
+		board[x][y] = null;
+	}
+	
+	/**
 	 * Gets player at given cell
 	 * @param x x-coordinate
 	 * @param y y-coordinate
@@ -55,6 +67,20 @@ public class Board {
 	 */
 	public Player getPlayer(int x, int y){
 		return board[x][y];
+	}
+	
+	/**
+	 * Go through the matrix and collect all empty cells
+	 * @return positions that are available
+	 */
+	public List<Position> getAvailablePositions() {
+		List<Position> availables = new ArrayList<>();
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
+				if (board[i][j] == null) availables.add(new Position(i, j));
+			}
+		}
+		return availables;
 	}
 	
 	public Player checkWinner() {

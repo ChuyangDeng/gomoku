@@ -70,10 +70,8 @@ public class InteractiveBoard extends Application {
 	}
 	
 	private boolean takeTurn(int x, int y, String s) {
-		boolean legalmove = board.isOccupied(x, y);
+		boolean legalmove = board.isEmpty(x, y);
 		if (!legalmove) return false;
-		System.out.println("Take Turn");
-		
 		
 		if (board.isFull()) {
 			newGame("Draw!");

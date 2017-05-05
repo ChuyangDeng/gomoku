@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public class AIPlayer {
 	
-	private int maxDepth = 1;
+	private int maxDepth = 2;
 	private int paddingDis = 1;
 	
 	class Node {
@@ -22,28 +22,68 @@ public class AIPlayer {
 	}
 	
 	public Position makeMove(Player[][] board, Player player) {
-		Node res;
+		Node move = null;
 		if (player == Player.BLACK) {
-			res = maxScore(board, -10000000, 10000000, 0);
+			move = defense(board, player);
+			if (move == null) move = maxScore(board, -10000000, 10000000, 0);
 		} else {
-			res = minScore(board, -10000000, 10000000, 0);
+			move = defense(board, player);
+			if (move == null) move = minScore(board, -10000000, 10000000, 0);
 		}
-		return res.p;
+		return move.p;
+	}
+	
+	public Node defense(Player[][] board, Player player) {
+		Node defense = null;
+		Player opponent;
+		if (player == Player.BLACK) opponent = Player.BLACK;
+		else opponent = Player.WHITE;
+		int[][] row = {{0, -1}, {0, 1}, {0, -2}, {0, 2}};
+		int[][] col = {{-1, 0}, {1, 0}, {2, 0}, {-2, 0}};
+		int[][] diag1 = {{-1, -1}, {1, 1}, {}, {}};
+		int[][] diag2 = {{-1, 1}, {1, -1}, {}, {}};
+		for (int i = 2; i < board.length - 2; i++) {
+			if (defense != null) break;
+			 for (int j = 2; j < board.length - 2; j++) {
+				 if (board[i][j] == opponent) {
+					 if (board[i + row[0][0]][j + row[0][1]] == opponent && board[i + row[1][0]][j + row[1][1]] == opponent) {
+						 if (board[i + row[2][0]][j + row[2][1]] == null) {
+							 Position position = new Position(i + row[2][0], j + row[2][1]);
+							 defense = new Node(position, player == Player.BLACK ? 10000000 : -10000000);
+							 break;
+						 }
+						 if (board[i + row[3][0]][j + row[3][1]] == null) {
+							 Position position = new Position(i + row[3][0], j + row[3][1]);
+							 defense = new Node(position, player == Player.BLACK ? 10000000 : -10000000);
+							 break;
+						 }
+					 }
+					 if (board[i + col[0][0]][j + col[0][1]] == opponent && board[i + col[1][0]][j + col[1][1]] == opponent) {
+						 if (board[i + col[2][0]][j + col[2][1]] == null) {
+							 Position position = new Position(i + col[2][0], j + col[2][1]);
+							 defense = new Node(position, player == Player.BLACK ? 10000000 : -10000000);
+							 break;
+						 }
+					 }
+				 }
+			 }
+		}
+		return defense;
 	}
 	
 	private int evaluate(Player[][] board) {
+		double Ba1 = numOfActive(board, Player.BLACK, 1);
+		double Wa1 = numOfActive(board, Player.WHITE, 1);
 		double Ba2 = numOfActive(board, Player.BLACK, 2);
 		double Wa2 = numOfActive(board, Player.WHITE, 2);
 		double Ba3 = numOfActive(board, Player.BLACK, 3);
 		double Wa3 = numOfActive(board, Player.WHITE, 3);
-		double Ba4 = numOfActive(board, Player.BLACK, 4);
-		double Wa4 = numOfActive(board, Player.WHITE, 4);
-		return (int) (10 * (Ba2 - Wa2) + 100 * (Ba3 - Wa3) + 400 * (Ba4 - Wa4));
+		return (int) (10 * (Ba1 - Wa1) + 100 * (Ba2 - Wa2) + 400 * (Ba3 - Wa3));
 	}
 	
-	private double numOfActive(Player[][] board, Player piece, int n) {
+	private double numOfActive(Player[][] board, Player player, int n) {
 		int R = 19, C = 19;
-		double res = 0;
+		double active = 0;
 		int deadEnd,l;
 		int[][] d = {{0, 1}, {1, 1}, {1, 0}, {1, -1}};
 		for (int x = 1; x < R - 1; x++)
@@ -58,12 +98,12 @@ public class AIPlayer {
 						if(deadEnd==2)
 							continue;
 						for (l = 0; l < n; l++)
-							if (board[x + l * d[k][0]][y + l * d[k][1]] != piece)
+							if (board[x + l * d[k][0]][y + l * d[k][1]] != player)
 								break;
 						if (l == n)
-							res+=deadEnd==0?1:0.4;
+							active += deadEnd == 0 ? 1 : 0.4;
 					}
-		return res;
+		return active;
 	}
 	
 	private void bfs(Player[][] board, int[][] dis) {
@@ -93,15 +133,16 @@ public class AIPlayer {
 	
 	private Node maxScore(Player[][] board, int min, int max, int depth) {
 		if (playerWins(board, Player.BLACK)) {
-			return new Node(null, 100000);
+			return new Node(null, 1000000);
 		} else if (playerWins(board, Player.WHITE)) {
-			return new Node(null, -100000);
+			return new Node(null, -1000000);
 		} else if (depth > maxDepth) {
 			return new Node(null, evaluate(board));
 		}
 		
 		int R = 19, C = 19;
 		int[][] dis = new int[R][C];
+		/* -1: empty; 0: occupied */
 		for (int i = 0; i < R; i++) {
 			for (int j = 0; j < C; j++) {
 				dis[i][j] = board[i][j] == null ? -1 : 0;
@@ -165,7 +206,7 @@ public class AIPlayer {
 	}
 	
 	public static boolean validPosition(int x, int y) {
-		return x >= 0 && x <= 19 && y >= 0 && y <= 19;
+		return x >= 0 && x < 19 && y >= 0 && y < 19;
 	}
 	
 	public static boolean playerWins(Player[][] board, Player player) {
