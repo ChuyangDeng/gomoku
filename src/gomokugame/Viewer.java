@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  * @author paula
  *
  */
-public class View {
+public class Viewer {
 	private final Canvas canvas = new Canvas(700, 700);
 	private double margin = 10;
 	private int dot_radius = 3;

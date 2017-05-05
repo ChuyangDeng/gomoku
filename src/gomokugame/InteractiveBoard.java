@@ -86,7 +86,9 @@ public class InteractiveBoard extends Application {
 		
 		drawBoard();
 		
-		Player winner = board.checkWinner();
+//		Player winner = board.checkWinner();
+		Position current = new Position(x, y);
+		Player winner = board.checkWinner2(current);
 		if (winner != null) {
 			newGame("Winner is: " + winner);
 			return false;

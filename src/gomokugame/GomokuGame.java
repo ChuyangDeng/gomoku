@@ -12,7 +12,7 @@ import javafx.stage.Stage;
  */
 public class GomokuGame extends Application {
 
-	private View view = new View();
+	private Viewer view = new Viewer();
 	private Board board = new Board();
 	private GameController controller = new GameController(view, board);
 	

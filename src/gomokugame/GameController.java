@@ -15,7 +15,7 @@ import javafx.scene.layout.GridPane;
  */
 public class GameController {
 
-	private View view;
+	private Viewer view;
 	private final Canvas canvas;
 	private Board board;
 	private Player currentplayer = Player.BLACK;
@@ -29,7 +29,7 @@ public class GameController {
 	 * @param view view object
 	 * @param board game board (model)
 	 */
-	public GameController(View view, Board board){
+	public GameController(Viewer view, Board board){
 		this.view = view;
 		this.board = board;
 		canvas = view.getCanvas();
@@ -85,8 +85,9 @@ public class GameController {
 		
 		/* end game if a winner is generated */
 //		Player winner = board.checkWinner();
-		System.out.println("Previous move : " + previous);
-		Player winner = board.checkWinner2(previous);
+//		System.out.println("Previous move : " + previous);
+		Position current = new Position(x, y);
+		Player winner = board.checkWinner2(current);
 		if (winner != null) {
 			newGame("Winner is: " + winner);
 			return false;

@@ -33,7 +33,13 @@ public class Board {
 	 * @return true if ***not*** occupied, false otherwise
 	 */
 	public boolean isEmpty(int x, int y){
-		return board[x][y] == null;
+		boolean res = false;
+		try {
+			res = (board[x][y] == null);
+			return res;
+		} catch (Exception e){
+		}
+		return false;
 	}
 	
 	/**

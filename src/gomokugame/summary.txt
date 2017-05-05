@@ -1,0 +1,37 @@
+Gomoku Game
+******************************
+Description
+This project implements a Gomoku game (five in a row) using Java FX. The user can select from 3 modes, player vs player, player vs computer and computer vs player, where the first player always takes first turn to move. We also implemented two strategies, the random player and a smart computer player strategy using Minimax algorithm combined with Alpha Beta prunning.
+
+
+******************************
+Work Breakdown
+There are 2 interfaces and 11 classes in this project 
+Chuyang worked on the random player and aiplayer strategy.
+Paula wored on the game board and MVC pattern.
+
+
+******************************
+Interfaces
+There are 2 interfaces in this project.
+1. PlayerInterface: This interface allows for different types of players. AIPlayer and RandomPlayer are implemented in this project.
+2. Strategy: This class allows for different strategies to play the gomoku game. Mini-Max with Alpha-Beta strategy and Random strategy are implemented in this project.
+
+******************************
+Design Pattern
+This project uses the MVC patter to seperate out the user interface with the back end calculation. 
+Model: The board class serves as the model in this project. It keeps track of the current state of game and is independent of the viewer class
+Viewer: The viewer class draws the board on the user interface. It's draw box function takes in a board object as parameter and draws the object. The class does not depend on the model. 
+Controller: The GameController class serves as the communicator between the Board class and the Viewer class. It contains a board object and a viewer object and controls the game flow. It updates the game board and calls the view to draw out the game board in each turn. 
+
+
+******************************
+Data Structures
+We mainly used linear data structure, including link list, array lists and queues in this project.
+
+
+******************************
+Advanced Topics 
+We used JavaFX as the user interface to draw out the game board. The interface receives mouse click interaction from the user and updates the game board accordingly. 
+
+
