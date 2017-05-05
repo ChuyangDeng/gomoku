@@ -17,6 +17,7 @@ There are 2 interfaces in this project.
 1. PlayerInterface: This interface allows for different types of players. AIPlayer and RandomPlayer are implemented in this project.
 2. Strategy: This class allows for different strategies to play the gomoku game. Mini-Max with Alpha-Beta strategy and Random strategy are implemented in this project.
 
+
 ******************************
 Design Pattern
 This project uses the MVC patter to seperate out the user interface with the back end calculation. 
@@ -33,5 +34,8 @@ We mainly used linear data structure, including link list, array lists and queue
 ******************************
 Advanced Topics 
 We used JavaFX as the user interface to draw out the game board. The interface receives mouse click interaction from the user and updates the game board accordingly. 
+
+
+
 
 
