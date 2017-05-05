@@ -18,10 +18,11 @@ public class GameController {
 	private View view;
 	private final Canvas canvas;
 	private Board board;
-	private Player currentplayer = Player.WHITE;
+	private Player currentplayer = Player.BLACK;
 	private boolean gameover = true;
 	String gamemode;
 	private AIPlayer computerplayer = new AIPlayer();
+	private Position previous = new Position(-1, -1);
 
 	/**
 	 * Constructor
@@ -34,12 +35,20 @@ public class GameController {
 		canvas = view.getCanvas();
 	}
 	
+	/**
+	 * Initialize the layout
+	 * @param root layout
+	 */
 	public void initContent(GridPane root) {
 		root.add(canvas, 0, 0);
 		canvas.setOnMouseClicked(event -> onClickAction(event));
 		view.drawBoard(board);
 	}
 
+	/**
+	 * Reaction to mouse click
+	 * @param event
+	 */
 	public void onClickAction(MouseEvent event) {
 		if (gameover) {newGame("New Game"); return;}
 		int x = view.translateToBoard(event.getX());
@@ -53,6 +62,13 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param s
+	 * @return
+	 */
 	private boolean takeTurn(int x, int y, String s) {
 		boolean legalmove = board.isEmpty(x, y);
 		if (!legalmove) return false;
@@ -61,31 +77,42 @@ public class GameController {
 			return false;
 		}
 		
-		if (currentplayer == Player.BLACK){
-			board.updateBoard(x, y, "black");
-		} else if (currentplayer == Player.WHITE){
-			board.updateBoard(x, y, "white");
-		}	
-	
+		/* update game board */
+		if (currentplayer == Player.BLACK) board.updateBoard(x, y, "black");
+		if (currentplayer == Player.WHITE) board.updateBoard(x, y, "white");
+		
 		view.drawBoard(board);
 		
-		Player winner = board.checkWinner();
+		/* end game if a winner is generated */
+//		Player winner = board.checkWinner();
+		System.out.println("Previous move : " + previous);
+		Player winner = board.checkWinner2(previous);
 		if (winner != null) {
 			newGame("Winner is: " + winner);
 			return false;
 		}
-
+		previous.setX(x);
+		previous.setY(y);
+		
 		// if the game hasn't ended, give the turn to the other player
 		currentplayer = currentplayer == Player.WHITE ? Player.BLACK : Player.WHITE;
 		return true;
 	}
 	
+	/**
+	 * Get move decided by computer strategy
+	 * @return true if a valid move can be made and false otherwise
+	 */
 	public boolean takeComputerTurn() {
 		Position move = computerplayer.getMove(board, currentplayer);
 		System.out.println(move);
 		return takeTurn(move.getX(), move.getY(), "Computer");
 	}
 	
+	/**
+	 * Start a new game by showing the welcome screen and let user select game mode.
+	 * @param message 
+	 */
 	public void newGame(String message) {
 		List<String> choices = new ArrayList<>();
 		choices.add("PVP");
@@ -103,11 +130,8 @@ public class GameController {
 			gamemode = letter;
 			gameover = false;
 			board = new Board();
-			currentplayer = Player.WHITE;
-			
-			if (gamemode == "EVP")
-				takeComputerTurn();
-			
+			currentplayer = Player.BLACK;
+			if (gamemode == "EVP") takeComputerTurn();
 			view.drawBoard(board);
 		});
 	}

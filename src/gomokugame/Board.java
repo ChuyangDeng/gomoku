@@ -118,43 +118,50 @@ public class Board {
 	 * @return player
 	 */
 	public Player checkWinner2(Position previousMove){
-		if (previousMove != null && !isValidPosition(previousMove) && board[previousMove.getX()][previousMove.getY()] != null) return null;
+		if (previousMove == null || !isValidPosition(previousMove) || board[previousMove.getX()][previousMove.getY()] == null) return null;
+		System.out.println("did something");
 		
 		int x = previousMove.getX();
 		int y = previousMove.getY();
 		int consecutive = 0;
 		
 		/* check column winner*/
+		System.out.println("check column");
 		for (int i = x - 4; i < x + 1; i ++){
 			for (int j = 0; j < 5; j ++){
 				try{
-					if (board[i + j][y].equals(board[x][y])){
+					if (board[i + j][y] == board[x][y]){
 						consecutive ++;
+					} else {
+						break;
 					}
 				} catch (IndexOutOfBoundsException e){
 					break;
-				} catch (NullPointerException e){
-					break;
-				}
+				} 
 			}
+			System.out.println("column consec is " + consecutive);
 			if (consecutive == 5) return board[x][y];
+			consecutive = 0;
 		}
 		
 		/* reset consecutive and check row winner */
+		System.out.println("check row");
 		consecutive = 0; 
 		for (int i = y - 4; i < y + 1; i ++){
 			for (int j = 0; j < 5; j ++){
 				try{
-					if (board[i + j][y].equals(board[x][y])){
+					if (board[x][i + j] == board[x][y]){
 						consecutive ++;
+					} else {
+						break;
 					}
 				} catch (IndexOutOfBoundsException e){
 					break;
-				} catch (NullPointerException e){
-					break;
-				}
+				} 
 			}
+			System.out.println("row consec is " + consecutive);
 			if (consecutive == 5) return board[x][y];
+			consecutive = 0;
 		}
 		
 		/* reset consecutive and check left diagonal winner */
@@ -162,16 +169,18 @@ public class Board {
 		for (int i = x - 4; i < x + 1; i ++){
 			for (int j = 0; j < 5; j ++){
 				try{
-					if (board[i + j][y].equals(board[x][y])){
+					if (board[i + j][y - x + i + j] == board[x][y]){
 						consecutive ++;
+					} else {
+						break;
 					}
 				} catch (IndexOutOfBoundsException e){
 					break;
-				} catch (NullPointerException e){
-					break;
-				}
+				} 
 			}
+			System.out.println("left diagonal consec is " + consecutive);
 			if (consecutive == 5) return board[x][y];
+			consecutive = 0;
 		}
 		
 		/* reset consecutive and check right diagonal winner */
@@ -179,16 +188,18 @@ public class Board {
 		for (int i = x - 4; i < x + 1; i ++){
 			for (int j = 0; j < 5; j ++){
 				try{
-					if (board[i + j][y].equals(board[x][y])){
+					if (board[i + j][x + y - i - j] == board[x][y]){
 						consecutive ++;
+					} else {
+						break;
 					}
 				} catch (IndexOutOfBoundsException e){
 					break;
-				} catch (NullPointerException e){
-					break;
-				}
+				} 
 			}
+			System.out.println("right diagonal consec is " + consecutive);
 			if (consecutive == 5) return board[x][y];
+			consecutive = 0;
 		}
 		
 		return null;
@@ -215,7 +226,6 @@ public class Board {
 			}
 			sb.append("\n");
 		}
-		
 		return sb.toString();
 	}
 	
@@ -238,7 +248,7 @@ public class Board {
 	/**
 	 * Helper method to check whether given position is valid on the board
 	 * @param position
-	 * @return
+	 * @return true if valid and false otherwise
 	 */
 	private boolean isValidPosition(Position position){
 		if (position.getX() >=0 && position.getX() < size && position.getY() >= 0 && position.getY() < size){

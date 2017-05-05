@@ -5,6 +5,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * This class contains the main method and runs the game
+ * @author paula
+ *
+ */
 public class GomokuGame extends Application {
 
 	private View view = new View();
