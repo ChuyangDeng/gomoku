@@ -258,11 +258,11 @@ public class Board {
 	}
 	
 	/**
-	 * Helper method to check whether given position is valid on the board
+	 * This method checks whether given position is valid on the board
 	 * @param position
 	 * @return true if valid and false otherwise
 	 */
-	private boolean isValidPosition(Position position){
+	public boolean isValidPosition(Position position){
 		if (position.getX() >=0 && position.getX() < size && position.getY() >= 0 && position.getY() < size){
 			return true;
 		}
