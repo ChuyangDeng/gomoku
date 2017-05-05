@@ -81,7 +81,7 @@ public class GameController {
 	}
 	
 	public boolean takeComputerTurn() {
-		Position move = computerplayer.getMove(board, currentplayer);
+		Position move = computerplayer.nextMove(board, currentplayer);
 		System.out.println(move);
 		return takeTurn(move.getX(), move.getY(), "Computer");
 	}
