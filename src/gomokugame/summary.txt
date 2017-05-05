@@ -1,12 +1,11 @@
 Gomoku Game
 ******************************
 Description
-This project implements a Gomoku game (five in a row) using Java FX. The user can select from 3 modes, player vs player, player vs computer and computer vs player, where the first player always takes first turn to move. We also implemented two strategies, the random player and a smart computer player strategy using Minimax algorithm combined with Alpha Beta prunning.
+This project implements a Gomoku game (five in a row) using Java FX. The user can select from 3 modes, player vs player, player vs smart computer and player vs random player. The player always takes first turn to move and followed by either another player or computer. The computer player adopts two types of strategies, the random strategy that finds random unoccupied position on game board and a smart computer player strategy using Minimax algorithm combined with Alpha Beta prunning to optimize the speed. When a winner is found, the game will declare the winner and prompt the user to start a new game.
 
 
 ******************************
 Work Breakdown
-There are 2 interfaces and 11 classes in this project 
 Chuyang worked on the random player and aiplayer strategy.
 Paula wored on the game board and MVC pattern.
 
@@ -36,6 +35,17 @@ Advanced Topics
 We used JavaFX as the user interface to draw out the game board. The interface receives mouse click interaction from the user and updates the game board accordingly. 
 
 
+******************************
+Program Instruction
+You should go to the GomokuGame class and run the game. The program will let user to select a game mode and start the game after that.
+
+
+******************************
+GitHub Repo
+The link to our team in cit-upenn is :
+https://github.com/cit-upenn/594-s17-project-gomokugame
+However, we started the project before getting the link from Swap. Please check the following link for a full history of git usage:
+https://github.com/ChuyangDeng/gomoku
 
 
 
