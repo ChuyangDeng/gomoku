@@ -138,14 +138,12 @@ public class Board {
 	 */
 	public Player checkWinner2(Position previousMove){
 		if (previousMove == null || !isValidPosition(previousMove) || board[previousMove.getX()][previousMove.getY()] == null) return null;
-		System.out.println("did something");
 		
 		int x = previousMove.getX();
 		int y = previousMove.getY();
 		int consecutive = 0;
 		
 		/* check column winner*/
-		System.out.println("check column");
 		for (int i = x - 4; i < x + 1; i ++){
 			for (int j = 0; j < 5; j ++){
 				try{
@@ -158,13 +156,11 @@ public class Board {
 					break;
 				} 
 			}
-			System.out.println("column consec is " + consecutive);
 			if (consecutive == 5) return board[x][y];
 			consecutive = 0;
 		}
 		
 		/* reset consecutive and check row winner */
-		System.out.println("check row");
 		consecutive = 0; 
 		for (int i = y - 4; i < y + 1; i ++){
 			for (int j = 0; j < 5; j ++){
@@ -178,7 +174,6 @@ public class Board {
 					break;
 				} 
 			}
-			System.out.println("row consec is " + consecutive);
 			if (consecutive == 5) return board[x][y];
 			consecutive = 0;
 		}
@@ -197,7 +192,6 @@ public class Board {
 					break;
 				} 
 			}
-			System.out.println("left diagonal consec is " + consecutive);
 			if (consecutive == 5) return board[x][y];
 			consecutive = 0;
 		}
@@ -216,7 +210,6 @@ public class Board {
 					break;
 				} 
 			}
-			System.out.println("right diagonal consec is " + consecutive);
 			if (consecutive == 5) return board[x][y];
 			consecutive = 0;
 		}

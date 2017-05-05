@@ -21,8 +21,7 @@ public class GameController {
 	private Player currentplayer = Player.BLACK;
 	private boolean gameover = true;
 	String gamemode;
-	private AIPlayer computerplayer = new AIPlayer();
-	private Position previous = new Position(-1, -1);
+	private PlayerInterface computerplayer;
 
 	/**
 	 * Constructor
@@ -57,16 +56,16 @@ public class GameController {
 		if (!takeTurn(x, y, "Player")) return;
 		
 		// if playing against an ai, let it take a turn
-		if (!gamemode.equals("PVP")) {
+		if (!gamemode.equalsIgnoreCase("Player vs Player")) {
 			takeComputerTurn();
 		}
 	}
 	
 	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @param s
+	 * Update game board after one player takes a move
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @param s player name
 	 * @return
 	 */
 	private boolean takeTurn(int x, int y, String s) {
@@ -84,16 +83,12 @@ public class GameController {
 		view.drawBoard(board);
 		
 		/* end game if a winner is generated */
-//		Player winner = board.checkWinner();
-//		System.out.println("Previous move : " + previous);
 		Position current = new Position(x, y);
 		Player winner = board.checkWinner2(current);
 		if (winner != null) {
 			newGame("Winner is: " + winner);
 			return false;
 		}
-		previous.setX(x);
-		previous.setY(y);
 		
 		// if the game hasn't ended, give the turn to the other player
 		currentplayer = currentplayer == Player.WHITE ? Player.BLACK : Player.WHITE;
@@ -116,11 +111,11 @@ public class GameController {
 	 */
 	public void newGame(String message) {
 		List<String> choices = new ArrayList<>();
-		choices.add("PVP");
-		choices.add("PVE");
-		choices.add("EVP");
+		choices.add("Player vs Player");
+		choices.add("Player vs Smart Computer");
+		choices.add("Player vs Random Computer");
 
-		if (gamemode == null) gamemode = "PVP";
+		if (gamemode == null) gamemode = "Player vs Player";
 		ChoiceDialog<String> dialog = new ChoiceDialog<>(gamemode, choices);
 		dialog.setTitle("Gomoku");
 		dialog.setHeaderText(message);
@@ -132,7 +127,9 @@ public class GameController {
 			gameover = false;
 			board = new Board();
 			currentplayer = Player.BLACK;
-			if (gamemode == "EVP") takeComputerTurn();
+//			if (gamemode == "EVP") takeComputerTurn();
+			if (gamemode.equalsIgnoreCase("Player vs Smart Computer")) computerplayer = new AIPlayer();
+			if (gamemode.equalsIgnoreCase("Player vs Random Computer")) computerplayer = new RandomPlayer();
 			view.drawBoard(board);
 		});
 	}
