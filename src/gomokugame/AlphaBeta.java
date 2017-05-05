@@ -18,12 +18,12 @@ public class AlphaBeta implements Strategy {
 			move = defense(board, player);
 			if (move == null) {
 				System.out.println("no defense");
-				move = maxScore(board, -10000000, 10000000, 0);
+				move = maxScore(board, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
 			}
 		} else {
 			move = defense(board, player);
 			if (move == null) {
-				move = minScore(board, -10000000, 10000000, 0);
+				move = minScore(board, Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
 				System.out.println("no defense");
 			}
 		}
@@ -140,9 +140,9 @@ public class AlphaBeta implements Strategy {
 	
 	private Cell maxScore(Player[][] board, int min, int max, int depth) {
 		if (playerWins(board, Player.BLACK)) {
-			return new Cell(null, 1000000);
+			return new Cell(null, Integer.MAX_VALUE);
 		} else if (playerWins(board, Player.WHITE)) {
-			return new Cell(null, -1000000);
+			return new Cell(null, Integer.MIN_VALUE);
 		} else if (depth > maxDepth) {
 			return new Cell(null, evaluate(board));
 		}
@@ -157,7 +157,7 @@ public class AlphaBeta implements Strategy {
 		}
 		bfs(board, dis);
 		
-		int score = -10000000, temp;
+		int score = Integer.MIN_VALUE, temp;
 		Position p = new Position(-1, -1);
 		for (int i = 0; i < R; i++) {
 			for (int j = 0; j < C; j++) {
@@ -180,9 +180,9 @@ public class AlphaBeta implements Strategy {
 	
 	private Cell minScore(Player[][] board, int min, int max, int depth) {
 		if (playerWins(board, Player.BLACK)) {
-			return new Cell(null, 100000);
+			return new Cell(null, Integer.MAX_VALUE);
 		} else if (playerWins(board, Player.WHITE)) {
-			return new Cell(null, -100000);
+			return new Cell(null, Integer.MIN_VALUE);
 		} else if (depth > maxDepth) {
 			return new Cell(null, evaluate(board));
 		}
@@ -192,7 +192,7 @@ public class AlphaBeta implements Strategy {
 			for (int j = 0; j < C; j++)
 				dis[i][j] = board[i][j] == null ? -1 : 0;
 		bfs(board, dis);
-		int score = 10000000, temp;
+		int score = Integer.MAX_VALUE, temp;
 		Position p = new Position(-1, -1);
 		for (int i = 0; i < R; i++)
 			for (int j = 0; j < C; j++) {
