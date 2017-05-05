@@ -1,7 +1,8 @@
 package gomokugame;
 
 /**
- * This class lists the two colors for player.s
+ * This Enumerator lists the two colors (types) for player.
+ * A Player can either claim BLACK pawns or WHITE pawns.
  * @author paula
  *
  */

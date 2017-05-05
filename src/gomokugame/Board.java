@@ -3,14 +3,27 @@ package gomokugame;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * This class is the representation of the gomoku chess board.
+ * The major part is a matrix of Players.
+ * Whenever a Player makes a move, a new object of that Player is created and updated on the matrix.
+ * @author chuyangdeng
+ *
+ */
 public class Board {
+	
+	/**
+	 * Instance variables
+	 */
 	static final int size = 19;
 	private Player[][] board;
-//	private Position previousMove;
 	
+	/**
+	 * Constructor of the class
+	 */
 	public Board(){
 		board = new Player[size][size];
-//		previousMove = new Position(-1, -1);
 	}
 	
 	/**
@@ -195,7 +208,7 @@ public class Board {
 	}
 	
 	/**
-	 * Prints the board
+	 * Prints the board if necessary.
 	 * @return a string representation of the board
 	 */
 	public String printBoard(){

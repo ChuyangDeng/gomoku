@@ -4,10 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 
+ * This class implements Strategy interface and applies random strategy to play the game.
+ * @author chuyangdeng
+ *
+ */
 public class RandomStrategy implements Strategy{
 	
+	/**
+	 * Instanve variables
+	 */
 	private Random rand;
 	
+	/**
+	 * Constructor of the class
+	 */
 	public RandomStrategy() {
 		rand = new Random();
 	}
