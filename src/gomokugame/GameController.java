@@ -84,7 +84,7 @@ public class GameController {
 		
 		/* end game if a winner is generated */
 		Position current = new Position(x, y);
-		Player winner = board.checkWinner2(current);
+		Player winner = board.checkWinner(current);
 		if (winner != null) {
 			newGame("Winner is: " + winner);
 			return false;

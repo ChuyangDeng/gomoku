@@ -10,13 +10,18 @@ package gomokugame;
 public class AIPlayer implements PlayerInterface{
 	
 	/**
-	 * Instanve vatiable
+	 * Instance variables
 	 */
 	Strategy ab = new AlphaBeta();
+	Strategy random = new RandomStrategy();
 	
 	@Override
 	public Position nextMove(Board board, Player currentPlayer) {
-		return ab.getMove(board, currentPlayer);
+		Position move = ab.getMove(board, currentPlayer);
+		if (!AlphaBeta.validPosition(move.getX(), move.getY())){
+			move = random.getMove(board, currentPlayer);
+		}
+		return move;
 	}
 	
 }
