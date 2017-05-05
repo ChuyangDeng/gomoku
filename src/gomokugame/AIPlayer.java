@@ -53,49 +53,29 @@ public class AIPlayer {
 			 for (int j = 2; j < board.length - 2; j++) {
 				 if (board[i][j] == opponent) {
 					 if (board[i + row[0][0]][j + row[0][1]] == opponent && board[i + row[1][0]][j + row[1][1]] == opponent) {
-						 if (board[i + row[2][0]][j + row[2][1]] == null) {
+						 if (board[i + row[2][0]][j + row[2][1]] == null && board[i + row[3][0]][j + row[3][1]] == null) {
 							 Position position = new Position(i + row[2][0], j + row[2][1]);
-							 defense = new Node(position, 0);
-							 break;
-						 }
-						 if (board[i + row[3][0]][j + row[3][1]] == null) {
-							 Position position = new Position(i + row[3][0], j + row[3][1]);
 							 defense = new Node(position, 0);
 							 break;
 						 }
 					 }
 					 if (board[i + col[0][0]][j + col[0][1]] == opponent && board[i + col[1][0]][j + col[1][1]] == opponent) {
-						 if (board[i + col[2][0]][j + col[2][1]] == null) {
+						 if (board[i + col[2][0]][j + col[2][1]] == null && board[i + col[3][0]][j + col[3][1]] == null) {
 							 Position position = new Position(i + col[2][0], j + col[2][1]);
-							 defense = new Node(position, 0);
-							 break;
-						 }
-						 if (board[i + col[3][0]][j + col[3][1]] == null) {
-							 Position position = new Position(i + col[3][0], j + col[3][1]);
 							 defense = new Node(position, 0);
 							 break;
 						 }
 					 }
 					 if (board[i + diag1[0][0]][j + diag1[0][1]] == opponent && board[1 + diag1[1][0]][j + diag1[1][1]] == opponent) {
-						 if (board[i + diag1[2][0]][j + diag1[2][1]] == null) {
+						 if (board[i + diag1[2][0]][j + diag1[2][1]] == null && board[i + diag1[3][0]][j + diag1[3][1]] == null) {
 							 Position position = new Position(i + diag1[2][0], j + diag1[2][1]);
-							 defense = new Node(position, 0);
-							 break;
-						 }
-						 if (board[i + diag1[3][0]][j + diag1[3][1]] == null) {
-							 Position position = new Position(i + diag1[3][0], j + diag1[3][1]);
 							 defense = new Node(position, 0);
 							 break;
 						 }
 					 }
 					 if (board[i + diag2[0][0]][j + diag2[0][1]] == opponent && board[1 + diag2[1][0]][j + diag2[1][1]] == opponent) {
-						 if (board[i + diag2[2][0]][j + diag2[2][1]] == null) {
+						 if (board[i + diag2[2][0]][j + diag2[2][1]] == null && board[i + diag2[3][0]][j + diag2[3][1]] == null) {
 							 Position position = new Position(i + diag2[2][0], j + diag2[2][1]);
-							 defense = new Node(position, 0);
-							 break;
-						 }
-						 if (board[i + diag2[3][0]][j + diag2[3][1]] == null) {
-							 Position position = new Position(i + diag2[3][0], j + diag2[3][1]);
 							 defense = new Node(position, 0);
 							 break;
 						 }
