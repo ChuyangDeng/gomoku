@@ -7,7 +7,7 @@ This project implements a Gomoku game (five in a row) using Java FX. The user ca
 ******************************
 Work Breakdown
 Chuyang worked on the random player and aiplayer strategy.
-Paula wored on the game board and MVC pattern.
+Paula worked on the game board and MVC pattern.
 
 
 ******************************
