@@ -30,9 +30,6 @@ public class GomokuGame extends Application {
 		primaryStage.show();
 		controller.newGame("New Game");
 		
-		if (controller.gamemode.equals("EVP")) {
-			controller.takeComputerTurn();
-		}
 	}
 	
 }
