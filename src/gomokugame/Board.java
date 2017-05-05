@@ -102,41 +102,12 @@ public class Board {
 		return availables;
 	}
 	
-	public Player checkWinner() {
-		for (int x = 0; x < board.length; x++)
-			for (int y = 0; y < board[x].length; y++)
-				if (board[x][y] != null) {
-					if (x <= board.length - 5 && y <= board.length - 5) // if not close to lower right corner, check cross right-down
-						if (board[x][y] == board[x+1][y+1] &&
-							board[x][y] == board[x+2][y+2] &&
-							board[x][y] == board[x+3][y+3] &&
-							board[x][y] == board[x+4][y+4]) return board[x][y];
-					if (x >= 5 && y <= board.length - 5) // if not close to lower left corner, check cross left-down
-						if (board[x][y] == board[x-1][y+1] &&
-							board[x][y] == board[x-2][y+2] &&
-							board[x][y] == board[x-3][y+3] &&
-							board[x][y] == board[x-4][y+4]) return board[x][y];
-					
-					if (x <= board.length - 5) // if not at right edge, check right
-						if (board[x][y] == board[x+1][y] &&
-							board[x][y] == board[x+2][y] &&
-							board[x][y] == board[x+3][y] &&
-							board[x][y] == board[x+4][y]) return board[x][y];
-					if (y <= board.length - 5) // if not at bottom, check down
-						if (board[x][y] == board[x][y+1] &&
-							board[x][y] == board[x][y+2] &&
-							board[x][y] == board[x][y+3] &&
-							board[x][y] == board[x][y+4]) return board[x][y];
-				}
-		return null;
-	}
-	
 	/**
 	 * Checks if the last move gives a new winner
 	 * @param previousMove last move
 	 * @return player
 	 */
-	public Player checkWinner2(Position previousMove){
+	public Player checkWinner(Position previousMove){
 		if (previousMove == null || !isValidPosition(previousMove) || board[previousMove.getX()][previousMove.getY()] == null) return null;
 		
 		int x = previousMove.getX();
